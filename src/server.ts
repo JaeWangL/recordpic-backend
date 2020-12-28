@@ -10,6 +10,13 @@ import AppModule from '@modules/app/app.module';
 import SharedModule from '@shared/shared.module';
 import LoggerService from '@shared/logger/logger.service';
 
+/**
+ * NOTE
+ * Change entryFile from `main.ts` to `server.ts`
+ * for using Azure App Service
+ * https://docs.microsoft.com/en-us/azure/app-service/configure-language-nodejs?pivots=platform-linux#run-with-pm2
+ * You can change entryFile in `nest-cli.json`
+ */
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
