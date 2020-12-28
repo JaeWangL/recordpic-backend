@@ -17,7 +17,15 @@ async function bootstrap() {
     .setTitle('API v1')
     .setDescription('The boilerplate API for nest.js')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth({
+      type: 'http',
+      description: `JWT Authorization header using the Bearer scheme.
+\r\n\r\nEnter 'Bearer' [space] and then your token in client application.
+\r\n\r\nExample: 'Bearer 12345abcdef'`,
+      name: 'Authorization',
+      in: 'Header',
+      scheme: 'Bearer',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
@@ -39,7 +47,7 @@ async function bootstrap() {
   app.register(FastifyCompress);
   app.register(FastifyRateLimiter, {
     max: 100, // limit each IP to 100 requests per windowMs
-    timeWindow: 15 * 60 * 1000, // 15 minutes
+    timeWindow: 2 * 60 * 1000, // 2 minutes
   });
 
   app.useGlobalFilters(new HttpExceptionFilter(loggerService));

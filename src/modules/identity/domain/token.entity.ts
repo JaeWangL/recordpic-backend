@@ -8,6 +8,15 @@ export default class TokenEntity extends AbstractEntity {
   @Column({ type: 'bigint' })
   userId: number;
 
+  /**
+   * NOTE
+   * 0: Web
+   * 1: Mobile
+   */
+  @ApiProperty({ type: Number })
+  @Column({ type: 'tinyint' })
+  type: number;
+
   @ApiProperty({ type: String, maxLength: 1024 })
   @Column({ type: 'nvarchar', length: 1024 })
   refreshToken: string;
@@ -16,9 +25,10 @@ export default class TokenEntity extends AbstractEntity {
   @Column({ type: 'datetimeoffset' })
   expirationDate: Date;
 
-  constructor(userId: number, refreshToken: string, expirationDate: Date) {
+  constructor(userId: number, type: number, refreshToken: string, expirationDate: Date) {
     super();
     this.userId = userId;
+    this.type = type;
     this.refreshToken = refreshToken;
     this.expirationDate = expirationDate;
   }

@@ -16,14 +16,24 @@ export default class TokenRepository {
     return token;
   }
 
-  async deleteByExpiration(): Promise<void> {
+  async deleteByExpirationAsync(): Promise<void> {
     await this.tokenRepo.delete({ expirationDate: LessThanOrEqual(new Date()) });
   }
 
-  async findByUserId(userId: number): Promise<TokenEntity | undefined> {
+  async deleteByUserIdAsync(userId: number): Promise<void> {
+    await this.tokenRepo.delete({ userId });
+  }
+
+  async findByUserIdAndTokenAsync(
+    userId: number,
+    type: number,
+    refreshToken: string,
+  ): Promise<TokenEntity | undefined> {
     const token = await this.tokenRepo.findOne({
       where: {
         userId,
+        type,
+        refreshToken,
       },
     });
 

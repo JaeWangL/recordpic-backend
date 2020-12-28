@@ -13,7 +13,7 @@
     "baseUrl": "./",
     "incremental": true,
     "strict": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true, // for using third-party libraries (moment, ...)
     "paths": {
       "@common/*": ["./src/common/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],

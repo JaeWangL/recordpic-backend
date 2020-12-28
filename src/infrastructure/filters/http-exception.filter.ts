@@ -4,12 +4,12 @@ import LoggerService from '@shared/logger/logger.service';
 
 @Catch(HttpException)
 export default class HttpExceptionFilter implements ExceptionFilter {
-  constructor(private readonly _logger: LoggerService) {}
+  constructor(private readonly logger: LoggerService) {}
 
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<FastifyReply>();
     const request = ctx.getRequest<FastifyRequest>();
+    const response = ctx.getResponse<FastifyReply>();
     if (request) {
       const status = exception.getStatus ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -26,12 +26,12 @@ export default class HttpExceptionFilter implements ExceptionFilter {
       };
 
       if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
-        this._logger.error(`${request.method} ${request.url}`, exception.stack, 'ExceptionFilter');
+        this.logger.error(`${request.method} ${request.url}`, exception.stack, 'ExceptionFilter');
       } else {
-        this._logger.error(`${request.method} ${request.url}`, JSON.stringify(errorResponse), 'ExceptionFilter');
+        this.logger.error(`${request.method} ${request.url}`, JSON.stringify(errorResponse), 'ExceptionFilter');
       }
 
-      return response.status(status).serialize(errorResponse);
+      return response.status(status).send(errorResponse);
     }
 
     return exception;

@@ -10,6 +10,6 @@ export default class ScheduleService {
   async handleCron(): Promise<void> {
     Logger.log('Expired refresh token is automatically deleted');
 
-    this.tokenRepo.deleteByExpiration();
+    this.tokenRepo.deleteByExpirationAsync();
   }
 }

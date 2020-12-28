@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import Bcrypt from 'bcrypt';
@@ -14,24 +14,24 @@ export interface SignInPayload {
 }
 
 @CommandHandler(SignInCommand)
-export default class SignInHandler implements ICommandHandler<SignInCommand, AuthTokensDto | undefined> {
+export default class SignInHandler implements ICommandHandler<SignInCommand, AuthTokensDto> {
   constructor(
     private readonly jwtService: JwtService,
     private readonly tokenRepo: TokenRepository,
     private readonly userRepo: UserRepository,
   ) {}
 
-  async execute(command: SignInCommand): Promise<AuthTokensDto | undefined> {
+  async execute(command: SignInCommand): Promise<AuthTokensDto> {
     Logger.log('SignIn...', 'SignInCommand');
     const { req } = command;
 
     const user = await this.userRepo.findByEmailAsync(req.email);
     if (user === undefined) {
-      return undefined;
+      throw new NotFoundException('Email is invalid');
     }
     const passwordCompared = await Bcrypt.compare(req.password, user.passwordHash);
     if (passwordCompared === false) {
-      return undefined;
+      throw new UnauthorizedException('Password is invalid');
     }
 
     const payload: SignInPayload = {
@@ -49,7 +49,7 @@ export default class SignInHandler implements ICommandHandler<SignInCommand, Aut
     });
 
     await this.tokenRepo.createAsync(
-      new TokenEntity(user.id, refreshToken, Moment(new Date()).add(7, 'days').toDate()),
+      new TokenEntity(user.id, req.type, refreshToken, Moment(new Date()).add(7, 'days').toDate()),
     );
 
     return {

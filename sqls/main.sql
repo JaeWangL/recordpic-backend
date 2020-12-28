@@ -26,6 +26,7 @@ CREATE TABLE [main3].[Tokens]
 (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [UserId] BIGINT NOT NULL,
+    [Type] TINYINT NOT NULL,
     [RefreshToken] NVARCHAR (1024) NULL,
     [ExpirationDate] DATETIMEOFFSET (7) NOT NULL,
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,

@@ -30,7 +30,7 @@ export default class UserRepository {
   async findByIdAsync(id: number): Promise<UserEntity | undefined> {
     const user = await this.userRepo.findOne(id, {
       where: {
-        iemailConfirmed: true,
+        emailConfirmed: true,
       },
     });
 

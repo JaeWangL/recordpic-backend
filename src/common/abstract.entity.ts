@@ -1,5 +1,6 @@
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+// TODO: Support `AggregateRoot` with `Event-Driven-Pattern`
 export default abstract class AbstractEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
