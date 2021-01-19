@@ -1,0 +1,17 @@
+**/*.png
+**/*.svg
+**/*.ico
+package.json
+dist/
+coverage/
+LICENSE
+yarn.lock
+yarn-error.log
+*.sh
+.gitignore
+.npmignore
+.prettierignore
+.DS_Store
+.editorconfig
+.eslintignore
+**/*.yml
