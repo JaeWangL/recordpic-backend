@@ -35,7 +35,7 @@ async function bootstrap() {
     })
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   const loggerService = app.select(SharedModule).get(LoggerService);
   app.useLogger(loggerService);
@@ -60,13 +60,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter(loggerService));
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(
-    process.env.SERVER_PORT || 3000,
-    process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1',
-    async () => {
-      // eslint-disable-next-line no-console
-      console.log(`The server is running on ${process.env.SERVER_PORT || 3000} port`);
-    },
-  );
+  await app.listen(process.env.SERVER_PORT || 3000, process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 }
 bootstrap();

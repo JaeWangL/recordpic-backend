@@ -1,4 +1,3 @@
-
 {
   "root": true,
   "env": {
@@ -37,12 +36,15 @@
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
     "max-classes-per-file": "off",
-    "max-len": [
-      "error",
-      120
-    ],
+    "max-len": ["error", 120],
     "no-return-await": "off",
     "no-useless-constructor": "off",
+    "@typescript-eslint/explicit-module-boundary-types": [
+      "error",
+      {
+        "allowArgumentsExplicitlyTypedAsAny": true
+      }
+    ],
     "@typescript-eslint/no-explicit-any": "off"
   }
 }

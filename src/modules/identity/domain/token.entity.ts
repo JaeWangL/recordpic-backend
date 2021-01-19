@@ -1,10 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import AbstractEntity from '@common/abstract.entity';
 
 @Entity('Tokens')
 export default class TokenEntity extends AbstractEntity {
-  @ApiProperty({ type: Number })
   @Column({ type: 'bigint' })
   userId: number;
 
@@ -13,15 +11,12 @@ export default class TokenEntity extends AbstractEntity {
    * 0: Web
    * 1: Mobile
    */
-  @ApiProperty({ type: Number })
   @Column({ type: 'tinyint' })
   type: number;
 
-  @ApiProperty({ type: String, maxLength: 1024 })
   @Column({ type: 'nvarchar', length: 1024 })
   refreshToken: string;
 
-  @ApiProperty({ type: Date })
   @Column({ type: 'datetimeoffset' })
   expirationDate: Date;
 
@@ -33,7 +28,7 @@ export default class TokenEntity extends AbstractEntity {
     this.expirationDate = expirationDate;
   }
 
-  updateToken(newRefreshToken: string) {
+  updateToken(newRefreshToken: string): void {
     this.refreshToken = newRefreshToken;
     this.updatedAt = new Date();
   }

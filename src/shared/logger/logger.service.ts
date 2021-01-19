@@ -4,11 +4,11 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 
 @Injectable()
 export default class LoggerService extends Logger {
-  private readonly _logger: Winston.Logger;
+  private readonly wLogger: Winston.Logger;
 
   constructor() {
     super(LoggerService.name, true);
-    this._logger = Winston.createLogger({
+    this.wLogger = Winston.createLogger({
       transports: [
         new DailyRotateFile({
           level: 'debug',
@@ -44,27 +44,27 @@ export default class LoggerService extends Logger {
     });
 
     if (process.env.NODE_ENV !== 'production') {
-      this._logger.debug('Logging initialized at debug level');
+      this.wLogger.debug('Logging initialized at debug level');
     }
   }
 
   log(message: string): void {
-    this._logger.info(message);
+    this.wLogger.info(message);
   }
 
   info(message: string): void {
-    this._logger.info(message);
+    this.wLogger.info(message);
   }
 
   debug(message: string): void {
-    this._logger.debug(message);
+    this.wLogger.debug(message);
   }
 
   error(message: string, trace?: any, context?: string): void {
-    this._logger.error(`${context || ''} ${message} -> (${trace || 'trace not provided !'})`);
+    this.wLogger.error(`${context || ''} ${message} -> (${trace || 'trace not provided !'})`);
   }
 
   warn(message: string): void {
-    this._logger.warn(message);
+    this.wLogger.warn(message);
   }
 }

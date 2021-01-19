@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
