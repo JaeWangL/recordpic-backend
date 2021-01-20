@@ -6,6 +6,7 @@ This project is for Node.JS beginner and Nest.JS lover. It offers lots of basic 
 
 - [Nest.JS](https://www.npmjs.com/package/@nestjs/core)
 - [Fastify](https://www.npmjs.com/package/@nestjs/platform-fastify)
+- [Fastify-Multipart](https://www.npmjs.com/package/fastify-multipart)
 - [Swagger](https://www.npmjs.com/package/@nestjs/swagger)
 - [Jwt](https://www.npmjs.com/package/@nestjs/jwt)
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
@@ -29,4 +30,4 @@ yarn start:prod
 
 # 🌘 Author
 
-I also added vscode setting file for eslint, so I recommend use this with Visual Studio  Code. and if you get some inspiration from this, Please give stars ⭐
+I also added vscode setting file for eslint, so I recommend use this with Visual Studio Code. and if you get some inspiration from this, Please give stars ⭐
