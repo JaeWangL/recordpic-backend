@@ -12,6 +12,9 @@ This project is for Node.JS beginner and Nest.JS lover. It offers lots of basic 
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [TypeORM](https://www.npmjs.com/package/@nestjs/typeorm)
 - [Winston](https://www.npmjs.com/package/winston)
+- [SendGrid Mail](https://sendgrid.com)
+- [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs)
+- [Naver SMS](https://www.ncloud.com/product/applicationService/sens)
 
 # 🌗 How to use?
 
