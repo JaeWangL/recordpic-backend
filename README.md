@@ -24,7 +24,7 @@ for Development
 yarn start
 ```
 
-for iOS
+for Production
 
 ```jsx
 yarn build
