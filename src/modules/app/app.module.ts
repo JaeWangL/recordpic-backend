@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+// import MulterModule from '@multer/multer.module';
 import SharedModule from '@shared/shared.module';
 import IdentityModule from '../identity/identity.module';
+import UploadModule from '../upload/upload.module';
 import AppController from './app.controller';
 import AppService from './app.service';
 
@@ -21,14 +23,16 @@ import AppService from './app.service';
       schema: process.env.DB_SCHEMA,
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: false,
-      connectionTimeout: 3000,
+      connectionTimeout: 30000,
       options: {
         encrypt: true,
         enableArithAbort: true,
       },
     }),
+    // MulterModule.register(),
     SharedModule,
     IdentityModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

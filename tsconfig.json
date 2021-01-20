@@ -7,7 +7,8 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false,
-    "target": "es2017",
+    "target": "es6",
+    "lib": ["es7"],
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -18,6 +19,7 @@
       "@common/*": ["./src/common/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@modules/*": ["./src/modules/*"],
+      "@multer/*": ["./src/multer/*"],
       "@shared/*": ["./src/shared/*"]
     }
   }

@@ -25,6 +25,12 @@
   "rules": {
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -35,10 +41,13 @@
     ],
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
+    "guard-for-in": "off",
     "max-classes-per-file": "off",
     "max-len": ["error", 120],
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     "no-return-await": "off",
     "no-useless-constructor": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {

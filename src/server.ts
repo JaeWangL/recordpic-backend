@@ -4,6 +4,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import FastifyCompress from 'fastify-compress';
 import FastifyHelmet from 'fastify-helmet';
+import FastifyMultipart from 'fastify-multipart';
 import FastifyRateLimiter from 'fastify-rate-limit';
 import HttpExceptionFilter from '@infrastructure/filters/http-exception.filter';
 import AppModule from '@modules/app/app.module';
@@ -18,7 +19,9 @@ import LoggerService from '@shared/logger/logger.service';
  * You can change entryFile in `nest-cli.json`
  */
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  const fAdapt = new FastifyAdapter();
+  fAdapt.register(FastifyMultipart);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
 
   const options = new DocumentBuilder()
     .setTitle('API v1')
@@ -62,4 +65,5 @@ async function bootstrap() {
 
   await app.listen(process.env.SERVER_PORT || 3000, process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 }
+
 bootstrap();
