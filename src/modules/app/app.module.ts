@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import SharedModule from '@shared/shared.module';
 import AlbumsModule from '../albums/albums.module';
 import IdentityModule from '../identity/identity.module';
+import NotificationsModule from '../notifications/notifications.module';
 import UploadModule from '../upload/upload.module';
 import { AppController, HealthController } from './controllers';
 import AppService from './app.service';
@@ -37,6 +38,7 @@ const AllControllers = [AppController, HealthController];
     SharedModule,
     AlbumsModule,
     IdentityModule,
+    NotificationsModule,
     UploadModule,
   ],
   controllers: [...AllControllers],

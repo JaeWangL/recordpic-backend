@@ -9,7 +9,24 @@ export default class SendGridService {
     }
   }
 
-  async sendMailAsync(to: string, subject: string, htmlText: string): Promise<void> {
+  async sendMailAsync(to: string, subject: string, plainText: string): Promise<void> {
+    if (!process.env.SENDGRID_FROM_EMAIL) {
+      return;
+    }
+
+    try {
+      await SendGridMail.send({
+        from: process.env.SENDGRID_FROM_EMAIL,
+        to,
+        subject,
+        text: plainText,
+      });
+    } catch (error) {
+      Logger.error(`SendGridService.sendMailAsync: ${error.toString()}`);
+    }
+  }
+
+  async sendHtmlMailAsync(to: string, subject: string, htmlText: string): Promise<void> {
     if (!process.env.SENDGRID_FROM_EMAIL) {
       return;
     }
@@ -22,7 +39,7 @@ export default class SendGridService {
         html: htmlText,
       });
     } catch (error) {
-      Logger.error(`SendGridService.sendMail: ${error.toString()}`);
+      Logger.error(`SendGridService.sendHtmlMailAsync: ${error.toString()}`);
     }
   }
 }
