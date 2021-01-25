@@ -1,19 +1,16 @@
 import { Column, Entity, Index } from 'typeorm';
 import AbstractEntity from '@common/abstract.entity';
-
-export enum SocialSignInType {
-  Google = 0,
-  Naver = 1,
-}
+import { SocialSignInType } from '@common/enum-types';
+import { parseUSocialType } from '@infrastructure/utils';
 
 @Entity('Users')
 export default class UserEntity extends AbstractEntity {
-  @Column({ type: 'nvarchar', length: 256 })
+  @Column({ type: 'nvarchar', length: 256, unique: true })
   @Index({ unique: true })
   email: string;
 
-  @Column({ type: 'nvarchar', length: 'MAX' })
-  passwordHash: string;
+  @Column({ type: 'nvarchar', length: 'MAX', nullable: true })
+  passwordHash?: string;
 
   @Column({ type: 'bit' })
   emailConfirmed: boolean;
@@ -25,26 +22,27 @@ export default class UserEntity extends AbstractEntity {
   imageUrl?: string;
 
   @Column({ type: 'tinyint', nullable: true })
-  socialType?: SocialSignInType;
+  socialType?: number;
 
   @Column({ type: 'nvarchar', length: 'MAX', nullable: true })
   socialId?: string;
 
   constructor(
     email: string,
-    passwordHash: string,
     name: string,
+    emailConfirmed = false,
+    passwordHash?: string,
     imageUrl?: string,
-    socialType?: number,
+    socialType?: SocialSignInType,
     socialId?: string,
   ) {
     super();
     this.email = email;
-    this.passwordHash = passwordHash;
-    this.emailConfirmed = false;
+    this.emailConfirmed = emailConfirmed;
     this.name = name;
+    this.passwordHash = passwordHash;
     this.imageUrl = imageUrl;
-    this.socialType = socialType;
+    this.socialType = parseUSocialType(socialType);
     this.socialId = socialId;
   }
 }

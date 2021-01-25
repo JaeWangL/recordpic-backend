@@ -16,7 +16,7 @@ export default class SignUpHandler implements ICommandHandler<SignUpCommand, Use
     const { req } = command;
 
     const hashedPassword = await Bcrypt.hash(req.password, 10);
-    const newUser = new UserEntity(req.email, hashedPassword, req.name, req.imageUrl);
+    const newUser = new UserEntity(req.email, req.name, false, hashedPassword, req.imageUrl);
     const user = await this.userSvc.createAsync(newUser);
 
     return toUserDTO(user);

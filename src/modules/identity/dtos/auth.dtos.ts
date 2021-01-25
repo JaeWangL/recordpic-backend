@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { SignInType } from '../domain/token.entity';
+import { SignInType, SocialSignInType } from '@common/enum-types';
 
 export class AuthTokensDto {
   @ApiProperty({ type: String, maxLength: 1024 })
@@ -34,6 +34,21 @@ export class SignInRequest {
   readonly type: SignInType;
 }
 
+export class SignInSocialRequest {
+  @ApiProperty({ type: String, maxLength: 256 })
+  @IsNotEmpty()
+  readonly email: string;
+
+  @ApiProperty({ type: Number, enum: SignInType })
+  readonly type: SignInType;
+
+  @ApiProperty({ enum: SocialSignInType })
+  socialType: SocialSignInType;
+
+  @ApiProperty({ type: String })
+  socialId: string;
+}
+
 export class SignOutRequest {
   @ApiProperty({ type: Number })
   @IsNotEmpty()
@@ -55,4 +70,23 @@ export class SignUpRequest {
 
   @ApiProperty({ type: String, nullable: true })
   readonly imageUrl?: string;
+}
+
+export class SignUpSocialRequest {
+  @ApiProperty({ type: String, maxLength: 256 })
+  @IsNotEmpty()
+  readonly email: string;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly imageUrl?: string;
+
+  @ApiProperty({ enum: SocialSignInType })
+  socialType: SocialSignInType;
+
+  @ApiProperty({ type: String })
+  socialId: string;
 }

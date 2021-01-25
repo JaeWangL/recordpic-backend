@@ -27,7 +27,6 @@ const AllControllers = [AppController, HealthController];
       database: process.env.DB_NAME,
       schema: process.env.DB_SCHEMA,
       entities: ['dist/**/*.entity{.ts,.js}'],
-      migrations: ['dist/**/migrations/*{.ts,.js}'],
       synchronize: false,
       connectionTimeout: 30000,
       options: {

@@ -21,7 +21,7 @@ export default class NotificationsController {
     return result;
   }
 
-  @Post('mail')
+  @Post('sms')
   @ApiOperation({ summary: 'Send SMS' })
   @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'SMS is successfully sent.' })
   async sendSMS(@Body() req: SendSMSRequest): Promise<boolean> {

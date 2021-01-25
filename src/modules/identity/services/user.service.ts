@@ -23,6 +23,21 @@ export default class UserService {
     });
   }
 
+  async findByEmailWithSocialAsync(
+    email: string,
+    socialType: number,
+    socialId: string,
+  ): Promise<UserEntity | undefined> {
+    return await this.userSvc.findOne({
+      where: {
+        email,
+        emailConfirmed: true,
+        socialType,
+        socialId,
+      },
+    });
+  }
+
   async findByIdAsync(id: number): Promise<UserEntity | undefined> {
     return await this.userSvc.findOne(id, {
       where: {

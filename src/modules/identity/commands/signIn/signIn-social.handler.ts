@@ -1,37 +1,33 @@
-import { Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Logger, UnauthorizedException } from '@nestjs/common';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import Bcrypt from 'bcrypt';
 import Moment from 'moment';
+import { parseSocialType } from '@infrastructure/utils/enum.utils';
 import { AuthTokensDto } from '@modules/identity/dtos';
 import { TokenEntity } from '@modules/identity/domain';
 import { TokenService, UserService } from '@modules/identity/services';
-import SignInCommand from './signIn.command';
+import { SignInPayload } from './signIn.handler';
+import SignInSocialCommand from './signIn-social.command';
 
-export interface SignInPayload {
-  readonly id: number;
-  readonly email: string;
-}
-
-@CommandHandler(SignInCommand)
-export default class SignInHandler implements ICommandHandler<SignInCommand, AuthTokensDto> {
+@CommandHandler(SignInSocialCommand)
+export default class SignInSocialHandler implements ICommandHandler<SignInSocialCommand, AuthTokensDto> {
   constructor(
     private readonly jwtService: JwtService,
     private readonly tokenSvc: TokenService,
     private readonly userSvc: UserService,
   ) {}
 
-  async execute(command: SignInCommand): Promise<AuthTokensDto> {
-    Logger.log('SignIn...', 'SignInCommand');
+  async execute(command: SignInSocialCommand): Promise<AuthTokensDto> {
+    Logger.log('SignIn with social account...', 'SignInSocialCommand');
     const { req } = command;
 
-    const user = await this.userSvc.findByEmailAsync(req.email);
-    if (user === undefined || !user.passwordHash) {
-      throw new NotFoundException('Email is invalid');
-    }
-    const passwordCompared = await Bcrypt.compare(req.password, user.passwordHash);
-    if (passwordCompared === false) {
-      throw new UnauthorizedException('Password is invalid');
+    const user = await this.userSvc.findByEmailWithSocialAsync(
+      req.email,
+      parseSocialType(req.socialType),
+      req.socialId,
+    );
+    if (user === undefined) {
+      throw new UnauthorizedException('Email or SocialId is invalid');
     }
 
     const payload: SignInPayload = {

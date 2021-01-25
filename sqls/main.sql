@@ -42,7 +42,7 @@ CREATE TABLE [main4].[Albums] (
     [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
     [Name]                 NVARCHAR (30)           NOT NULL,
     [Description]          NVARCHAR (30)           NULL,
-    [Coverolor]             NVARCHAR (16)           NOT NULL,
+    [CoverColor]            NVARCHAR (16)           NOT NULL,
     [CoverUrl]             NVARCHAR (MAX)          NOT NULL,
     [InviteCode]          NVARCHAR (16)           NOT NULL,
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
@@ -89,6 +89,10 @@ CREATE TABLE [main4].[Photos] (
     CONSTRAINT [FK_Photos_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [main4].[Albums] ([Id]) ON DELETE CASCADE
 );
 
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Users_Email]
+    ON [main4].[Users]([Email] ASC) WHERE ([Email] IS NOT NULL);
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Albums_InviteCode]
