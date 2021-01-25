@@ -1,18 +1,18 @@
 import { Column, Entity } from 'typeorm';
 import AbstractEntity from '@common/abstract.entity';
 
+export enum SignInType {
+  Web = 0,
+  Mobile = 1,
+}
+
 @Entity('Tokens')
 export default class TokenEntity extends AbstractEntity {
   @Column({ type: 'bigint' })
   userId: number;
 
-  /**
-   * NOTE
-   * 0: Web
-   * 1: Mobile
-   */
-  @Column({ type: 'tinyint' })
-  type: number;
+  @Column({ type: 'tinyint', enum: SignInType })
+  type: SignInType;
 
   @Column({ type: 'nvarchar', length: 1024 })
   refreshToken: string;

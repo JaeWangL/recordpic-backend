@@ -19,7 +19,6 @@
       "@common/*": ["./src/common/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@modules/*": ["./src/modules/*"],
-      "@multer/*": ["./src/multer/*"],
       "@shared/*": ["./src/shared/*"]
     }
   }

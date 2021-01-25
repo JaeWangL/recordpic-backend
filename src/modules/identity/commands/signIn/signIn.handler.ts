@@ -5,7 +5,7 @@ import Bcrypt from 'bcrypt';
 import Moment from 'moment';
 import { AuthTokensDto } from '@modules/identity/dtos';
 import { TokenEntity } from '@modules/identity/domain';
-import { TokenRepository, UserRepository } from '@modules/identity/repositories';
+import { TokenService, UserService } from '@modules/identity/services';
 import SignInCommand from './signIn.command';
 
 export interface SignInPayload {
@@ -17,15 +17,15 @@ export interface SignInPayload {
 export default class SignInHandler implements ICommandHandler<SignInCommand, AuthTokensDto> {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly tokenRepo: TokenRepository,
-    private readonly userRepo: UserRepository,
+    private readonly tokenSvc: TokenService,
+    private readonly userSvc: UserService,
   ) {}
 
   async execute(command: SignInCommand): Promise<AuthTokensDto> {
     Logger.log('SignIn...', 'SignInCommand');
     const { req } = command;
 
-    const user = await this.userRepo.findByEmailAsync(req.email);
+    const user = await this.userSvc.findByEmailAsync(req.email);
     if (user === undefined) {
       throw new NotFoundException('Email is invalid');
     }
@@ -48,7 +48,7 @@ export default class SignInHandler implements ICommandHandler<SignInCommand, Aut
       secret: process.env.REFRESH_TOKEN_SECRET,
     });
 
-    await this.tokenRepo.createAsync(
+    await this.tokenSvc.createAsync(
       new TokenEntity(user.id, req.type, refreshToken, Moment(new Date()).add(7, 'days').toDate()),
     );
 

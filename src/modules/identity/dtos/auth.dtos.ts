@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
+import { SignInType } from '../domain/token.entity';
 
 export class AuthTokensDto {
   @ApiProperty({ type: String, maxLength: 1024 })
@@ -12,13 +13,8 @@ export class AuthTokensDto {
 }
 
 export class TokenRefreshingRequest {
-  /**
-   * NOTE
-   * 0: Web
-   * 1: Mobile
-   */
-  @ApiProperty({ type: Number })
-  readonly type: number;
+  @ApiProperty({ type: Number, enum: SignInType })
+  readonly type: SignInType;
 
   @ApiProperty({ type: String, maxLength: 1024 })
   @IsNotEmpty()
@@ -34,13 +30,8 @@ export class SignInRequest {
   @IsNotEmpty()
   readonly password: string;
 
-  /**
-   * NOTE
-   * 0: Web
-   * 1: Mobile
-   */
-  @ApiProperty({ type: Number })
-  readonly type: number;
+  @ApiProperty({ type: Number, enum: SignInType })
+  readonly type: SignInType;
 }
 
 export class SignOutRequest {
@@ -57,4 +48,11 @@ export class SignUpRequest {
   @ApiProperty({ type: String })
   @IsNotEmpty()
   readonly password: string;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly imageUrl?: string;
 }

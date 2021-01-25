@@ -2,10 +2,7 @@ import { BadRequestException, Body, Controller, HttpStatus, Post, UseGuards } fr
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
-import SignInCommand from '../commands/signIn/signIn.command';
-import SignOutCommand from '../commands/signOut/signOut.command';
-import SignUpCommand from '../commands/signUp/signUp.command';
-import TokenRefreshingCommand from '../commands/tokenRefreshing/tokenRefreshing.command';
+import { SignInCommand, SignOutCommand, SignUpCommand, TokenRefreshingCommand } from '../commands';
 import { AuthTokensDto, SignInRequest, SignOutRequest, SignUpRequest, TokenRefreshingRequest, UserDto } from '../dtos';
 
 @ApiTags('Auth')

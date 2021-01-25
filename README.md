@@ -21,14 +21,14 @@ This project is for Node.JS beginner and Nest.JS lover. It offers lots of basic 
 for Development
 
 ```jsx
-yarn start
+yarn start:dev
 ```
 
 for Production
 
 ```jsx
 yarn build
-yarn start:prod
+yarn start
 ```
 
 # 🌘 Author

@@ -4,24 +4,22 @@ import { LessThanOrEqual, Repository } from 'typeorm';
 import { TokenEntity } from '../domain';
 
 @Injectable()
-export default class TokenRepository {
+export default class TokenService {
   constructor(
     @InjectRepository(TokenEntity)
-    private tokenRepo: Repository<TokenEntity>,
+    private tokenSvc: Repository<TokenEntity>,
   ) {}
 
   async createAsync(newToken: TokenEntity): Promise<TokenEntity> {
-    const token = await this.tokenRepo.save(newToken);
-
-    return token;
+    return await this.tokenSvc.save(newToken);
   }
 
   async deleteByExpirationAsync(): Promise<void> {
-    await this.tokenRepo.delete({ expirationDate: LessThanOrEqual(new Date()) });
+    await this.tokenSvc.delete({ expirationDate: LessThanOrEqual(new Date()) });
   }
 
   async deleteByUserIdAsync(userId: number): Promise<void> {
-    await this.tokenRepo.delete({ userId });
+    await this.tokenSvc.delete({ userId });
   }
 
   async findByUserIdAndTokenAsync(
@@ -29,7 +27,7 @@ export default class TokenRepository {
     type: number,
     refreshToken: string,
   ): Promise<TokenEntity | undefined> {
-    const token = await this.tokenRepo.findOne({
+    const token = await this.tokenSvc.findOne({
       where: {
         userId,
         type,
@@ -41,8 +39,6 @@ export default class TokenRepository {
   }
 
   async updateAsync(updatedToken: TokenEntity): Promise<TokenEntity> {
-    const token = await this.tokenRepo.save(updatedToken);
-
-    return token;
+    return await this.tokenSvc.save(updatedToken);
   }
 }

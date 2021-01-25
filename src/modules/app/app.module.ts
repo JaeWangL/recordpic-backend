@@ -1,18 +1,22 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import MulterModule from '@multer/multer.module';
 import SharedModule from '@shared/shared.module';
+import AlbumsModule from '../albums/albums.module';
 import IdentityModule from '../identity/identity.module';
 import UploadModule from '../upload/upload.module';
-import AppController from './app.controller';
+import { AppController, HealthController } from './controllers';
 import AppService from './app.service';
+
+const AllControllers = [AppController, HealthController];
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    TerminusModule,
     TypeOrmModule.forRoot({
       type: 'mssql',
       host: process.env.DB_SERVER,
@@ -29,12 +33,12 @@ import AppService from './app.service';
         enableArithAbort: true,
       },
     }),
-    // MulterModule.register(),
     SharedModule,
+    AlbumsModule,
     IdentityModule,
     UploadModule,
   ],
-  controllers: [AppController],
+  controllers: [...AllControllers],
   providers: [AppService],
 })
 export default class AppModule {}

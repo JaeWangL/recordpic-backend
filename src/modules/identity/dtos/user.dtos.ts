@@ -8,4 +8,11 @@ export class UserDto {
   @ApiProperty({ type: String, maxLength: 256 })
   @IsNotEmpty()
   readonly email: string;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly imageUrl?: string;
 }

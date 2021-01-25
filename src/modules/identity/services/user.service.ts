@@ -4,42 +4,34 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../domain';
 
 @Injectable()
-export default class UserRepository {
+export default class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepo: Repository<UserEntity>,
+    private userSvc: Repository<UserEntity>,
   ) {}
 
   async createAsync(newUser: UserEntity): Promise<UserEntity> {
-    const user = await this.userRepo.save(newUser);
-
-    return user;
+    return await this.userSvc.save(newUser);
   }
 
   async findByEmailAsync(email: string): Promise<UserEntity | undefined> {
-    const user = await this.userRepo.findOne({
+    return await this.userSvc.findOne({
       where: {
         email,
         emailConfirmed: true,
       },
     });
-
-    return user;
   }
 
   async findByIdAsync(id: number): Promise<UserEntity | undefined> {
-    const user = await this.userRepo.findOne(id, {
+    return await this.userSvc.findOne(id, {
       where: {
         emailConfirmed: true,
       },
     });
-
-    return user;
   }
 
   async updateAsync(updatedUser: UserEntity): Promise<UserEntity> {
-    const user = await this.userRepo.save(updatedUser);
-
-    return user;
+    return await this.userSvc.save(updatedUser);
   }
 }
