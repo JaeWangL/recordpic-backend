@@ -17,7 +17,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f ./src/ormconfig-migrations.ts",
+    "typeorm:migrate": "npm run typeorm:cli -- migration:generate -n",
+    "typeorm:run": "npm run typeorm:cli migration:run"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.4.0",
