@@ -8,6 +8,7 @@ import FastifyMultipart from 'fastify-multipart';
 import FastifyRateLimiter from 'fastify-rate-limit';
 import Handlebars from 'handlebars';
 import { join } from 'path';
+import PointOfView from 'point-of-view';
 import HttpExceptionFilter from '@infrastructure/filters/http-exception.filter';
 import AppModule from '@modules/app/app.module';
 import SharedModule from '@shared/shared.module';
@@ -23,6 +24,12 @@ import LoggerService from '@shared/logger/logger.service';
 async function bootstrap() {
   const fAdapt = new FastifyAdapter();
   fAdapt.register(FastifyMultipart);
+  fAdapt.register(PointOfView, {
+    engine: {
+      handlebars: Handlebars,
+    },
+    templates: join(__dirname, '..', 'views'),
+  });
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fAdapt);
 
   const options = new DocumentBuilder()
@@ -48,12 +55,6 @@ async function bootstrap() {
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
     prefix: '/public/',
-  });
-  app.setViewEngine({
-    engine: {
-      handlebars: Handlebars,
-    },
-    templates: join(__dirname, '..', 'views'),
   });
   app.enableCors();
   app.register(FastifyHelmet, {

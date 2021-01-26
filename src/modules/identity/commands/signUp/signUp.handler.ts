@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import Bcrypt from 'bcrypt';
 import Fs from 'fs';
+import Handlebars from 'handlebars';
 import { join } from 'path';
 import ShortUUID from 'short-uuid';
 import { UserDto } from '@modules/identity/dtos';
@@ -37,8 +38,7 @@ export default class SignUpHandler implements ICommandHandler<SignUpCommand, Use
     const newCode = new VerificationMailEntity(userId, generatedCode);
     await this.verifyingSvc.createAsync(newCode);
 
-    const templatePath = join(__dirname, 'views/verification-mail.hbs');
-    const templateStr = Fs.readFileSync(templatePath, { encoding: 'utf-8' });
+    const templateStr = Fs.readFileSync('views/verification-mail.hbs', { encoding: 'utf-8' });
     const template = Handlebars.compile(templateStr, { noEscape: true });
 
     await this.sgSvc.sendHtmlMailAsync(

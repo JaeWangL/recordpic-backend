@@ -45,6 +45,8 @@ CREATE TABLE [main4].[Verifications_Mail]
     [UserId] BIGINT NOT NULL,
     [Code] UNIQUEIDENTIFIER NOT NULL,
     [ExpirationDate] DATETIMEOFFSET (7) NOT NULL,
+    [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Verifications_Mail] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Verifications_Mail_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [main4].[Users] ([Id]) ON DELETE CASCADE
 );
@@ -56,6 +58,8 @@ CREATE TABLE [main4].[Verifications_Phone]
     [Number] NVARCHAR (30)           NOT NULL,
     [Code] NVARCHAR (16)           NOT NULL,
     [ExpirationDate] DATETIMEOFFSET (7) NOT NULL,
+    [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Verifications_Phone] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

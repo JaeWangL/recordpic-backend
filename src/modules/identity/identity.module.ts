@@ -6,13 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import JwtAccessStrategy from './strategies/jwt-access.strategy';
 import JwtRefreshStrategy from './strategies/jwt-refresh.strategy';
 import { AllCommandHandlers, AllQueryHandlers } from './commands';
-import { AuthController, UserController } from './controllers';
-import { TokenEntity, UserEntity } from './domain';
-import { TokenService, UserService } from './services';
+import { AuthController, UserController, VerificationsController } from './controllers';
+import { TokenEntity, UserEntity, VerificationMailEntity, VerificationPhoneEntity } from './domain';
+import { TokenService, UserService, VerificationMailService, VerificationPhoneService } from './services';
 
-const AllControllers = [AuthController, UserController];
-const AllEntities = [TokenEntity, UserEntity];
-const AllServices = [TokenService, UserService];
+const AllControllers = [AuthController, UserController, VerificationsController];
+const AllEntities = [TokenEntity, UserEntity, VerificationMailEntity, VerificationPhoneEntity];
+const AllServices = [TokenService, UserService, VerificationMailService, VerificationPhoneService];
 
 @Module({
   imports: [

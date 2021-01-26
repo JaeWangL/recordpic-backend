@@ -14,7 +14,7 @@ export { default as SignOutCommand } from './signOut/signOut.command';
 export { default as SignUpCommand } from './signUp/signUp.command';
 export { default as SignUpSocialCommand } from './signUp/signUp-social-command';
 export { default as TokenRefreshingCommand } from './tokenRefreshing/tokenRefreshing.command';
-export { default as VerificationSignUpCommand } from './verification/verification-signUp.command';
+export { default as VerificationSignUpQuery } from './verification/verification-signUp.query';
 export const AllCommandHandlers = [
   SignInHandler,
   SignInSocialHandler,

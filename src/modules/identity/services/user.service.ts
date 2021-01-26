@@ -38,10 +38,10 @@ export default class UserService {
     });
   }
 
-  async findByIdAsync(id: number): Promise<UserEntity | undefined> {
+  async findByIdAsync(id: number, emailConfirmed = true): Promise<UserEntity | undefined> {
     return await this.userSvc.findOne(id, {
       where: {
-        emailConfirmed: true,
+        emailConfirmed,
       },
     });
   }
