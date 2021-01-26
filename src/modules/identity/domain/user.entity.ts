@@ -45,4 +45,9 @@ export default class UserEntity extends AbstractEntity {
     this.socialType = parseUSocialType(socialType);
     this.socialId = socialId;
   }
+
+  updateEmailConfirmed(confirmed = true): void {
+    this.emailConfirmed = confirmed;
+    this.updatedAt = new Date();
+  }
 }

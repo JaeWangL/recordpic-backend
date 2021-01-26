@@ -6,6 +6,8 @@ import FastifyCompress from 'fastify-compress';
 import FastifyHelmet from 'fastify-helmet';
 import FastifyMultipart from 'fastify-multipart';
 import FastifyRateLimiter from 'fastify-rate-limit';
+import Handlebars from 'handlebars';
+import { join } from 'path';
 import HttpExceptionFilter from '@infrastructure/filters/http-exception.filter';
 import AppModule from '@modules/app/app.module';
 import SharedModule from '@shared/shared.module';
@@ -43,6 +45,16 @@ async function bootstrap() {
   const loggerService = app.select(SharedModule).get(LoggerService);
   app.useLogger(loggerService);
 
+  app.useStaticAssets({
+    root: join(__dirname, '..', 'public'),
+    prefix: '/public/',
+  });
+  app.setViewEngine({
+    engine: {
+      handlebars: Handlebars,
+    },
+    templates: join(__dirname, '..', 'views'),
+  });
   app.enableCors();
   app.register(FastifyHelmet, {
     contentSecurityPolicy: {

@@ -24,11 +24,11 @@ export default class HealthController {
   @Get('dns')
   @HealthCheck()
   async checkDns(): Promise<HealthCheckResult> {
-    if (!process.env.DOCS_DNS_URL) {
+    if (!process.env.DNS_URL) {
       return { status: 'error' } as HealthCheckResult;
     }
 
     // @ts-ignore
-    return await this.health.check([() => this.dns.pingCheck('dns', process.env.DOCS_DNS_URL)]);
+    return await this.health.check([() => this.dns.pingCheck('dns', `${process.env.DNS_URL}/docs`)]);
   }
 }

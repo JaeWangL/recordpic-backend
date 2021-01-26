@@ -35,7 +35,28 @@ CREATE TABLE [main4].[Tokens]
     [ExpirationDate] DATETIMEOFFSET (7) NOT NULL,
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT [PK_Tokens] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_Tokens] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Tokens_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [main4].[Users] ([Id]) ON DELETE CASCADE
+);
+
+CREATE TABLE [main4].[Verifications_Mail]
+(
+    [Id] BIGINT IDENTITY (1, 1) NOT NULL,
+    [UserId] BIGINT NOT NULL,
+    [Code] UNIQUEIDENTIFIER NOT NULL,
+    [ExpirationDate] DATETIMEOFFSET (7) NOT NULL,
+    CONSTRAINT [PK_Verifications_Mail] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Verifications_Mail_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [main4].[Users] ([Id]) ON DELETE CASCADE
+);
+
+CREATE TABLE [main4].[Verifications_Phone]
+(
+    [Id] BIGINT IDENTITY (1, 1) NOT NULL,
+    [CountryCode] NVARCHAR (16)           NOT NULL,
+    [Number] NVARCHAR (30)           NOT NULL,
+    [Code] NVARCHAR (16)           NOT NULL,
+    [ExpirationDate] DATETIMEOFFSET (7) NOT NULL,
+    CONSTRAINT [PK_Verifications_Phone] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
 CREATE TABLE [main4].[Albums] (
@@ -93,6 +114,14 @@ CREATE TABLE [main4].[Photos] (
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Users_Email]
     ON [main4].[Users]([Email] ASC) WHERE ([Email] IS NOT NULL);
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Verifications_Mail_UserId]
+    ON [main4].[Verifications_Mail]([UserId] ASC) WHERE ([UserId] IS NOT NULL);
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Verifications_Phone_Number]
+    ON [main4].[Verifications_Phone]([Number] ASC) WHERE ([Number] IS NOT NULL);
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Albums_InviteCode]
