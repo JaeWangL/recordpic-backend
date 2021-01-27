@@ -2,7 +2,6 @@ import Moment from 'moment';
 import { Column, Entity } from 'typeorm';
 import AbstractEntity from '@common/abstract.entity';
 
-// TODO: Update this features with `Redis`
 @Entity('Verifications_Mail')
 export default class VerificationMailEntity extends AbstractEntity {
   @Column({ type: 'bigint', unique: true })

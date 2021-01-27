@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
 import SharedModule from '@shared/shared.module';
 import AlbumsModule from '../albums/albums.module';
 import IdentityModule from '../identity/identity.module';

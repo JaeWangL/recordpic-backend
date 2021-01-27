@@ -12,6 +12,39 @@ export default class BlobService {
     }
   }
 
+  async deleteBlobAsync(containerName: string, blobName: string): Promise<void> {
+    if (!this.blobClient) {
+      return;
+    }
+
+    try {
+      const containerClient = this.blobClient.getContainerClient(containerName);
+      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+      await blockBlobClient.deleteIfExists();
+    } catch (error) {
+      Logger.error(`BlobService.deleteBlobAsync: ${error.toString()}`);
+    }
+  }
+
+  async deleteBlobsAsync(containerName: string, blobNames: string[]): Promise<void> {
+    if (!this.blobClient) {
+      return;
+    }
+
+    try {
+      const containerClient = this.blobClient.getContainerClient(containerName);
+
+      blobNames.forEach(async (blobName) => {
+        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+        await blockBlobClient.deleteIfExists();
+      });
+    } catch (error) {
+      Logger.error(`BlobService.deleteBlobAsync: ${error.toString()}`);
+    }
+  }
+
   async uploadBlobAsync(containerName: string, file: Multipart): Promise<string | undefined> {
     if (!this.blobClient) {
       return undefined;

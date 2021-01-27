@@ -3,7 +3,6 @@ import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import Bcrypt from 'bcrypt';
 import Fs from 'fs';
 import Handlebars from 'handlebars';
-import { join } from 'path';
 import ShortUUID from 'short-uuid';
 import { UserDto } from '@modules/identity/dtos';
 import { UserEntity, VerificationMailEntity } from '@modules/identity/domain';
