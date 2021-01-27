@@ -1,5 +1,7 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpService, Injectable, Logger } from '@nestjs/common';
 import Moment from 'moment';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 interface NaverSMSMessage {
   to: string;
@@ -27,7 +29,7 @@ interface NaverSMSReq {
 export default class NaverService {
   constructor(private httpService: HttpService) {}
 
-  sendSMS(content: string, toNumbers: string[]): void {
+  sendSMS(content: string, toNumbers: string[], countryCode?: string): void {
     if (
       !process.env.NAVER_CLOUD_SECRET_KEY ||
       !process.env.NAVER_CLOUD_SERVICE_ID ||
@@ -45,22 +47,27 @@ export default class NaverService {
     const req: NaverSMSReq = {
       type: 'SMS',
       from: process.env.NAVER_SMS_FROM_NUMBER,
+      countryCode,
       content,
       messages,
     };
 
-    this.httpService.post(
-      `https://sens.apigw.ntruss.com/sms/v2/services/${process.env.NAVER_CLOUD_SERVICE_ID}/messages`,
-      req,
-      {
+    this.httpService
+      .post(`https://sens.apigw.ntruss.com/sms/v2/services/${process.env.NAVER_CLOUD_SERVICE_ID}/messages`, req, {
         headers: {
           'Content-Type': 'application/json',
           'x-ncp-apigw-timestamp': Moment(),
           'x-ncp-iam-access-key': process.env.NAVER_CLOUD_SECRET_KEY,
           'x-ncp-apigw-signature-v2': this.makeSignature(process.env.NAVER_CLOUD_SECRET_KEY),
         },
-      },
-    );
+      })
+      .pipe(
+        catchError((error) => {
+          Logger.error(`NaverService.sendSMS: ${error.toString()}`);
+
+          return throwError(error);
+        }),
+      );
   }
 
   private makeSignature(secretKey: string): string {

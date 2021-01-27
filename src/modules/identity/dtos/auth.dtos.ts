@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsPhoneNumber } from 'class-validator';
 import { SignInType, SocialSignInType } from '@common/enum-types';
 
 export class AuthTokensDto {
@@ -89,4 +89,15 @@ export class SignUpSocialRequest {
 
   @ApiProperty({ type: String })
   socialId: string;
+}
+
+export class VerificationPhoneRequest {
+  @ApiProperty({ type: String, nullable: true })
+  @IsNotEmpty()
+  readonly countryCode?: string;
+
+  @ApiProperty({ type: String })
+  @IsPhoneNumber()
+  @IsNotEmpty()
+  readonly number: string;
 }

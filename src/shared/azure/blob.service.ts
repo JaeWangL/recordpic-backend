@@ -12,9 +12,9 @@ export default class BlobService {
     }
   }
 
-  async uploadBlobAsync(containerName: string, file: Multipart): Promise<boolean> {
+  async uploadBlobAsync(containerName: string, file: Multipart): Promise<string | undefined> {
     if (!this.blobClient) {
-      return false;
+      return undefined;
     }
 
     try {
@@ -23,22 +23,27 @@ export default class BlobService {
       const blockBlobClient = containerClient.getBlockBlobClient(file.filename);
 
       const fileBuffer = this.toArrayBuffer(mpBuffer);
+
       await blockBlobClient.upload(fileBuffer, Buffer.byteLength(fileBuffer));
 
-      return true;
+      return blockBlobClient.url;
     } catch (error) {
       Logger.error(`BlobService.uploadBlobAsync: ${error.toString()}`);
     }
 
-    return false;
+    return undefined;
   }
 
-  async uploadBlobsAsync(containerName: string, files: AsyncIterableIterator<Multipart>): Promise<boolean> {
+  async uploadBlobsAsync(
+    containerName: string,
+    files: AsyncIterableIterator<Multipart>,
+  ): Promise<string[] | undefined> {
     if (!this.blobClient) {
-      return false;
+      return undefined;
     }
 
     try {
+      const urlList: string[] = [];
       for await (const file of files) {
         const mpBuffer = await file.toBuffer();
         const containerClient = this.blobClient.getContainerClient(containerName);
@@ -47,14 +52,16 @@ export default class BlobService {
         const fileBuffer = this.toArrayBuffer(mpBuffer);
 
         await blockBlobClient.upload(fileBuffer, Buffer.byteLength(fileBuffer));
+
+        urlList.push(blockBlobClient.url);
       }
 
-      return true;
+      return urlList;
     } catch (error) {
       Logger.error(`BlobService.uploadBlobsAsync: ${error.toString()}`);
     }
 
-    return false;
+    return undefined;
   }
 
   async createContainerAsync(containerName: string): Promise<boolean> {

@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
 
-export default class VerificationSignUpCommand implements IQuery {
+export default class VerificationSignUpQuery implements IQuery {
   constructor(public readonly shortCode: string) {}
 }

@@ -1,17 +1,17 @@
 IF EXISTS (SELECT name
 FROM sys.schemas
-WHERE name = N'main4')
+WHERE name = N'test1')
 	BEGIN
-    DROP SCHEMA [main4]
+    DROP SCHEMA [test1]
 END
 
 
 GO
-CREATE SCHEMA [main4] AUTHORIZATION [dbo]
+CREATE SCHEMA [test1] AUTHORIZATION [dbo]
 
 
 GO
-CREATE TABLE [main4].[Users]
+CREATE TABLE [test1].[Users]
 (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [Email] NVARCHAR (256) NULL,
@@ -26,7 +26,7 @@ CREATE TABLE [main4].[Users]
     CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-CREATE TABLE [main4].[Tokens]
+CREATE TABLE [test1].[Tokens]
 (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [UserId] BIGINT NOT NULL,
@@ -36,10 +36,10 @@ CREATE TABLE [main4].[Tokens]
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Tokens] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Tokens_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [main4].[Users] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Tokens_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [test1].[Users] ([Id]) ON DELETE CASCADE
 );
 
-CREATE TABLE [main4].[Verifications_Mail]
+CREATE TABLE [test1].[Verifications_Mail]
 (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [UserId] BIGINT NOT NULL,
@@ -48,10 +48,10 @@ CREATE TABLE [main4].[Verifications_Mail]
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Verifications_Mail] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Verifications_Mail_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [main4].[Users] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Verifications_Mail_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [test1].[Users] ([Id]) ON DELETE CASCADE
 );
 
-CREATE TABLE [main4].[Verifications_Phone]
+CREATE TABLE [test1].[Verifications_Phone]
 (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [CountryCode] NVARCHAR (16)           NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE [main4].[Verifications_Phone]
     CONSTRAINT [PK_Verifications_Phone] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-CREATE TABLE [main4].[Albums] (
+CREATE TABLE [test1].[Albums] (
     [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
     [Name]                 NVARCHAR (30)           NOT NULL,
     [Description]          NVARCHAR (30)           NULL,
@@ -75,7 +75,7 @@ CREATE TABLE [main4].[Albums] (
     CONSTRAINT [PK_Albums] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-CREATE TABLE [main4].[Members] (
+CREATE TABLE [test1].[Members] (
     [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
     [AlbumId]              BIGINT                  NOT NULL,
     [UserId]               BIGINT                  NOT NULL,
@@ -86,10 +86,10 @@ CREATE TABLE [main4].[Members] (
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Members] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Members_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [main4].[Albums] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Members_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [test1].[Albums] ([Id]) ON DELETE CASCADE
 );
 
-CREATE TABLE [main4].[Moments] (
+CREATE TABLE [test1].[Moments] (
     [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
     [AlbumId]              BIGINT                  NOT NULL,
     [Name]                 NVARCHAR (30)           NOT NULL,
@@ -97,10 +97,10 @@ CREATE TABLE [main4].[Moments] (
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Moments] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Moments_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [main4].[Albums] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Moments_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [test1].[Albums] ([Id]) ON DELETE CASCADE
 );
 
-CREATE TABLE [main4].[Photos] (
+CREATE TABLE [test1].[Photos] (
     [Id]                       BIGINT                  IDENTITY (1, 1) NOT NULL,
     [AlbumId]                  BIGINT                  NOT NULL,
     [MomentId]                 BIGINT                  NOT NULL,
@@ -110,23 +110,23 @@ CREATE TABLE [main4].[Photos] (
     [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [PK_Photos] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Photos_Moments_MomentId] FOREIGN KEY ([MomentId]) REFERENCES [main4].[Moments] ([Id]),
-    CONSTRAINT [FK_Photos_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [main4].[Albums] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Photos_Moments_MomentId] FOREIGN KEY ([MomentId]) REFERENCES [test1].[Moments] ([Id]),
+    CONSTRAINT [FK_Photos_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [test1].[Albums] ([Id]) ON DELETE CASCADE
 );
 
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Users_Email]
-    ON [main4].[Users]([Email] ASC) WHERE ([Email] IS NOT NULL);
+    ON [test1].[Users]([Email] ASC) WHERE ([Email] IS NOT NULL);
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Verifications_Mail_UserId]
-    ON [main4].[Verifications_Mail]([UserId] ASC) WHERE ([UserId] IS NOT NULL);
+    ON [test1].[Verifications_Mail]([UserId] ASC) WHERE ([UserId] IS NOT NULL);
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Verifications_Phone_Number]
-    ON [main4].[Verifications_Phone]([Number] ASC) WHERE ([Number] IS NOT NULL);
+    ON [test1].[Verifications_Phone]([Number] ASC) WHERE ([Number] IS NOT NULL);
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Albums_InviteCode]
-    ON [main4].[Albums]([InviteCode] ASC) WHERE ([InviteCode] IS NOT NULL);
+    ON [test1].[Albums]([InviteCode] ASC) WHERE ([InviteCode] IS NOT NULL);

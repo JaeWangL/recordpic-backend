@@ -2,6 +2,7 @@ import Moment from 'moment';
 import { Column, Entity } from 'typeorm';
 import AbstractEntity from '@common/abstract.entity';
 
+// TODO: Update this features with `Redis`
 @Entity('Verifications_Phone')
 export default class VerificationPhoneEntity extends AbstractEntity {
   @Column({ type: 'nvarchar', length: 16 })
@@ -16,7 +17,7 @@ export default class VerificationPhoneEntity extends AbstractEntity {
   @Column({ type: 'datetimeoffset' })
   expirationDate: Date;
 
-  constructor(countryCode: string, number: string, code: string) {
+  constructor(number: string, code: string, countryCode = '82') {
     super();
     this.countryCode = countryCode;
     this.number = number;
