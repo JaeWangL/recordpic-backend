@@ -76,6 +76,10 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter(loggerService));
   app.useGlobalPipes(new ValidationPipe());
 
+  // Starts listening for shutdown hooks for `Health Check`
+  // NOTE: `https://docs.nestjs.com/fundamentals/lifecycle-events#application-shutdown`
+  app.enableShutdownHooks();
+
   await app.listen(process.env.SERVER_PORT || 3000, process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 }
 
