@@ -80,7 +80,9 @@ async function bootstrap() {
   // NOTE: `https://docs.nestjs.com/fundamentals/lifecycle-events#application-shutdown`
   app.enableShutdownHooks();
 
-  await app.listen(process.env.SERVER_PORT || 3000, process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
+  // NOTE: default port must be 8080 for Azure App Service
+  // If not, App Service will say `Container didn't respond to HTTP pings on port: 8080, failing site start`
+  await app.listen(8080, process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 }
 
 bootstrap();

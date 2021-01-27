@@ -39,6 +39,13 @@ export class SignInSocialRequest {
   @IsNotEmpty()
   readonly email: string;
 
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly imageUrl?: string;
+
   @ApiProperty({ type: Number, enum: SignInType })
   readonly type: SignInType;
 
@@ -70,25 +77,6 @@ export class SignUpRequest {
 
   @ApiProperty({ type: String, nullable: true })
   readonly imageUrl?: string;
-}
-
-export class SignUpSocialRequest {
-  @ApiProperty({ type: String, maxLength: 256 })
-  @IsNotEmpty()
-  readonly email: string;
-
-  @ApiProperty({ type: String, maxLength: 30 })
-  @IsNotEmpty()
-  readonly name: string;
-
-  @ApiProperty({ type: String, nullable: true })
-  readonly imageUrl?: string;
-
-  @ApiProperty({ enum: SocialSignInType })
-  socialType: SocialSignInType;
-
-  @ApiProperty({ type: String })
-  socialId: string;
 }
 
 export class VerificationPhoneRequest {

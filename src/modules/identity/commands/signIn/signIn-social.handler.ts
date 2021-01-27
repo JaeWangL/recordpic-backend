@@ -1,10 +1,10 @@
-import { Logger, UnauthorizedException } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import Moment from 'moment';
 import { parseSocialType } from '@infrastructure/utils/enum.utils';
-import { AuthTokensDto } from '@modules/identity/dtos';
-import { TokenEntity } from '@modules/identity/domain';
+import { AuthTokensDto, SignInSocialRequest } from '@modules/identity/dtos';
+import { TokenEntity, UserEntity } from '@modules/identity/domain';
 import { TokenService, UserService } from '@modules/identity/services';
 import { SignInPayload } from './signIn.handler';
 import SignInSocialCommand from './signIn-social.command';
@@ -26,10 +26,16 @@ export default class SignInSocialHandler implements ICommandHandler<SignInSocial
       parseSocialType(req.socialType),
       req.socialId,
     );
-    if (user === undefined) {
-      throw new UnauthorizedException('Email or SocialId is invalid');
+    if (!user) {
+      const newUser = await this.signUpSocial(req);
+
+      return await this.generateTokens(req.type, newUser);
     }
 
+    return await this.generateTokens(req.type, user);
+  }
+
+  private async generateTokens(signInType: number, user: UserEntity): Promise<AuthTokensDto> {
     const payload: SignInPayload = {
       id: user.id,
       email: user.email,
@@ -45,12 +51,26 @@ export default class SignInSocialHandler implements ICommandHandler<SignInSocial
     });
 
     await this.tokenSvc.createAsync(
-      new TokenEntity(user.id, req.type, refreshToken, Moment(new Date()).add(7, 'days').toDate()),
+      new TokenEntity(user.id, signInType, refreshToken, Moment(new Date()).add(7, 'days').toDate()),
     );
 
     return {
       accessToken,
       refreshToken,
     } as AuthTokensDto;
+  }
+
+  private async signUpSocial(req: SignInSocialRequest): Promise<UserEntity> {
+    const newUser = new UserEntity(
+      req.email,
+      req.name,
+      true,
+      undefined,
+      req.imageUrl,
+      parseSocialType(req.socialType),
+      req.socialId,
+    );
+
+    return await this.userSvc.createAsync(newUser);
   }
 }

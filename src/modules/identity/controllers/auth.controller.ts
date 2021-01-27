@@ -2,21 +2,13 @@ import { BadRequestException, Body, Controller, HttpStatus, Post, UseGuards } fr
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
-import {
-  SignInCommand,
-  SignInSocialCommand,
-  SignOutCommand,
-  SignUpCommand,
-  SignUpSocialCommand,
-  TokenRefreshingCommand,
-} from '../commands';
+import { SignInCommand, SignInSocialCommand, SignOutCommand, SignUpCommand, TokenRefreshingCommand } from '../commands';
 import {
   AuthTokensDto,
   SignInRequest,
   SignInSocialRequest,
   SignOutRequest,
   SignUpRequest,
-  SignUpSocialRequest,
   TokenRefreshingRequest,
   UserDto,
 } from '../dtos';
@@ -40,7 +32,11 @@ export default class AuthController {
 
   @Post('signIn/social')
   @ApiOperation({ summary: 'SignIn with social accounts' })
-  @ApiResponse({ status: HttpStatus.OK, type: AuthTokensDto, description: 'signed in successfully.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: AuthTokensDto,
+    description: 'signed in with social accounts successfully.',
+  })
   async signInSocial(@Body() req: SignInSocialRequest): Promise<AuthTokensDto> {
     if (req === undefined) {
       throw new BadRequestException();
@@ -72,18 +68,6 @@ export default class AuthController {
       throw new BadRequestException();
     }
     const user: UserDto = await this.commandBus.execute(new SignUpCommand(req));
-
-    return user;
-  }
-
-  @Post('signUp/social')
-  @ApiOperation({ summary: 'SignUp with social account' })
-  @ApiResponse({ status: HttpStatus.CREATED, type: UserDto, description: 'User Created.' })
-  async signUpSocial(@Body() req: SignUpSocialRequest): Promise<UserDto> {
-    if (req === undefined) {
-      throw new BadRequestException();
-    }
-    const user: UserDto = await this.commandBus.execute(new SignUpSocialCommand(req));
 
     return user;
   }
