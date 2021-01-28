@@ -21,5 +21,17 @@ export const toMomentPreviewWithPhotoDTO = (
   photoCount,
 });
 
+export const toMomentPreviewWithUpdateDTO = (
+  moment: MomentEntity,
+  coverUrl: string,
+  photoCount: number,
+): MomentPreviewDto => ({
+  id: moment.id,
+  name: moment.name,
+  coverUrl,
+  momentDate: moment.momentDate,
+  photoCount,
+});
+
 export const toMomentsPreviewDTO = (moments: MomentEntity[]): MomentPreviewDto[] =>
   moments.map((moment) => toMomentPreviewDTO(moment));

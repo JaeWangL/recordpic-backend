@@ -40,7 +40,7 @@ export default class AlbumsController {
   @Put()
   @UseGuards(JwtAccessGuard)
   @ApiOperation({ summary: 'Update Album' })
-  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The album is successfully updated.' })
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumPreviewDto, description: 'The album is successfully updated.' })
   async updateAlbum(@Body() req: UpdateAlbumRequest): Promise<AlbumPreviewDto> {
     if (req === undefined) {
       throw new BadRequestException();

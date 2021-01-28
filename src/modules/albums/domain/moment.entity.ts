@@ -24,7 +24,7 @@ export default class MomentEntity extends AbstractEntity {
     this.momentDate = momentDate;
   }
 
-  updateMoment(name: string, momentDate: Date): void {
+  updateSettings(name: string, momentDate: Date): void {
     this.name = name;
     this.momentDate = momentDate;
     this.updatedAt = new Date();

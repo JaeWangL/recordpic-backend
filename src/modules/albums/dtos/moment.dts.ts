@@ -51,3 +51,39 @@ export class DeleteMomentRequest {
   @IsNotEmpty()
   readonly id: number;
 }
+
+export class UpdatePhotoWithMomentRequest {
+  @ApiProperty({ type: Number, nullable: true })
+  @IsNotEmpty()
+  readonly id?: number;
+
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  readonly photoUrl: string;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly title: string;
+
+  @ApiProperty({ type: String, maxLength: 50 })
+  @IsNotEmpty()
+  readonly description: string;
+}
+
+export class UpdateMomentRequest {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: Date })
+  @IsNotEmpty()
+  readonly momentDate: Date;
+
+  @ApiProperty({ type: [UpdatePhotoWithMomentRequest] })
+  @IsNotEmpty()
+  readonly photos: UpdatePhotoWithMomentRequest[];
+}
