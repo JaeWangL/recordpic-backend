@@ -22,6 +22,10 @@ export default class PhotoService {
     await this.photoRepo.delete({ id });
   }
 
+  async deleteByMomentIdAsync(momentId: number): Promise<void> {
+    await this.photoRepo.delete({ momentId });
+  }
+
   async findByIdAsync(id: number): Promise<PhotoEntity | undefined> {
     return await this.photoRepo.findOne(id);
   }

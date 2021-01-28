@@ -45,3 +45,9 @@ export class CreateMomentRequest {
   @IsNotEmpty()
   readonly photos: CreatePhotoWithMomentRequest[];
 }
+
+export class DeleteMomentRequest {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+}

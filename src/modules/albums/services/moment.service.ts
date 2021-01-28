@@ -18,6 +18,10 @@ export default class MomentService {
     await this.momentRepo.delete({ id });
   }
 
+  async removeAsync(moment: MomentEntity): Promise<void> {
+    await this.momentRepo.remove(moment);
+  }
+
   async findByIdAsync(id: number): Promise<MomentEntity | undefined> {
     return await this.momentRepo.findOne(id);
   }

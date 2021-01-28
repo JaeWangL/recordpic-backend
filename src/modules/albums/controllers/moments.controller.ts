@@ -1,11 +1,22 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Query, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Query,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import PaginatedItemsViewModel from '@common/paginated-Items.viewModel';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
 import { ApiPaginatedResponse } from '@infrastructure/decorators';
-import { CreateMomentCommand, GetMomentsPreviewQuery } from '../commands';
-import { MomentPreviewDto, CreateMomentRequest } from '../dtos';
+import { CreateMomentCommand, DeleteMomentCommand, GetMomentsPreviewQuery } from '../commands';
+import { MomentPreviewDto, CreateMomentRequest, DeleteMomentRequest } from '../dtos';
 
 @ApiTags('Moments')
 @Controller('moments')
@@ -41,5 +52,18 @@ export default class MomentsController {
     const moment: MomentPreviewDto = await this.commandBus.execute(new CreateMomentCommand(req));
 
     return moment;
+  }
+
+  @Delete()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Delete Moment' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The moment is successfully deleted.' })
+  async deleteAlbum(@Body() req: DeleteMomentRequest): Promise<boolean> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const result: boolean = await this.commandBus.execute(new DeleteMomentCommand(req));
+
+    return result;
   }
 }
