@@ -2,5 +2,7 @@
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "appService.zipIgnorePattern": ["node_modules{,/**}", "dist{,/**}", "logs{,/**}", "sqls{,/**}", ".vscode{,/**}"],
+  "appService.defaultWebAppToDeploy": "None"
 }
