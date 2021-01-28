@@ -18,6 +18,10 @@ export default class MemberService {
     await this.memberRepo.delete({ id });
   }
 
+  async removeAsync(member: MemberEntity): Promise<void> {
+    await this.memberRepo.remove(member);
+  }
+
   async findByIdAsync(id: number): Promise<MemberEntity | undefined> {
     return await this.memberRepo.findOne(id);
   }

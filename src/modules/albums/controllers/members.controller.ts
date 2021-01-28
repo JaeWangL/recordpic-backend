@@ -1,11 +1,27 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Query, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Query,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import PaginatedItemsViewModel from '@common/paginated-Items.viewModel';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
 import { ApiPaginatedResponse } from '@infrastructure/decorators';
-import { CreateMemberCommand, GetMembersPreviewQuery, GetMembersWithAlbumQuery } from '../commands';
-import { MemberPreviewDto, MemberWithAlbumDto, CreateMemberRequest } from '../dtos';
+import {
+  CreateMemberCommand,
+  DeleteMemberCommand,
+  GetMembersPreviewQuery,
+  GetMembersWithAlbumQuery,
+} from '../commands';
+import { MemberPreviewDto, MemberWithAlbumDto, CreateMemberRequest, DeleteMemberRequest } from '../dtos';
 
 @ApiTags('Members')
 @Controller('members')
@@ -52,5 +68,18 @@ export default class MembersController {
     const member: MemberPreviewDto = await this.commandBus.execute(new CreateMemberCommand(req));
 
     return member;
+  }
+
+  @Delete()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Delete Member' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The member is successfully deleted.' })
+  async deleteAlbum(@Body() req: DeleteMemberRequest): Promise<boolean> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const result: boolean = await this.commandBus.execute(new DeleteMemberCommand(req));
+
+    return result;
   }
 }

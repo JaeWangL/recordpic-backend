@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { makeRandomString } from '@infrastructure/utils';
 import { AlbumEntity, MemberEntity } from '../../domain';
+import { MemberRankType } from '../../domain/member.entity';
 import { CreateAlbumRequest, AlbumPreviewDto } from '../../dtos';
 import { AlbumService, MemberService } from '../../services';
 import { toAlbumPreviewDTO } from '../album.extensions';
@@ -22,7 +23,14 @@ export default class CreateAlbumHandler implements ICommandHandler<CreateAlbumCo
   }
 
   private async createHostAsync(req: CreateAlbumRequest, albumId: number): Promise<MemberEntity> {
-    const newHost = new MemberEntity(albumId, req.userId, req.userEmail, req.userName, req.userImageUrl);
+    const newHost = new MemberEntity(
+      albumId,
+      req.userId,
+      req.userEmail,
+      req.userName,
+      req.userImageUrl,
+      MemberRankType.Host,
+    );
 
     return await this.memberSvc.createAsync(newHost);
   }

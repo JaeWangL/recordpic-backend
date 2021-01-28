@@ -64,3 +64,9 @@ export class CreateMemberRequest {
   @ApiProperty({ type: String, nullable: true })
   readonly userImageUrl?: string;
 }
+
+export class DeleteMemberRequest {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+}

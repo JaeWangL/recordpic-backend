@@ -27,7 +27,7 @@ export default class AlbumsController {
   @Delete()
   @UseGuards(JwtAccessGuard)
   @ApiOperation({ summary: 'Delete Album' })
-  @ApiResponse({ status: HttpStatus.OK, type: AlbumPreviewDto, description: 'The album is successfully deleted.' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The album is successfully deleted.' })
   async deleteAlbum(@Body() req: DeleteAlbumRequest): Promise<boolean> {
     if (req === undefined) {
       throw new BadRequestException();
