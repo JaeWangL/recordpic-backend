@@ -63,3 +63,24 @@ export class DeleteAlbumRequest {
   @IsNotEmpty()
   readonly id: number;
 }
+
+export class UpdateAlbumRequest {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: String, maxLength: 30, nullable: true })
+  readonly description?: string;
+
+  @ApiProperty({ type: String, maxLength: 16 })
+  @IsNotEmpty()
+  readonly coverColor: string;
+
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  readonly coverUrl: string;
+}

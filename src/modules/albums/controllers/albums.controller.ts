@@ -1,9 +1,9 @@
-import { BadRequestException, Body, Controller, Delete, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, HttpStatus, Post, Put, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
-import { CreateAlbumCommand, DeleteAlbumCommand } from '../commands';
-import { AlbumPreviewDto, CreateAlbumRequest, DeleteAlbumRequest } from '../dtos';
+import { CreateAlbumCommand, DeleteAlbumCommand, UpdateAlbumCommand } from '../commands';
+import { AlbumPreviewDto, CreateAlbumRequest, DeleteAlbumRequest, UpdateAlbumRequest } from '../dtos';
 
 @ApiTags('Albums')
 @Controller('albums')
@@ -35,5 +35,18 @@ export default class AlbumsController {
     const result: boolean = await this.commandBus.execute(new DeleteAlbumCommand(req));
 
     return result;
+  }
+
+  @Put()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Update Album' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The album is successfully updated.' })
+  async updateAlbum(@Body() req: UpdateAlbumRequest): Promise<AlbumPreviewDto> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const album: AlbumPreviewDto = await this.commandBus.execute(new UpdateAlbumCommand(req));
+
+    return album;
   }
 }

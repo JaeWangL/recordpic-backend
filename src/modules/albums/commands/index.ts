@@ -9,6 +9,7 @@ import GetMembersPreviewHandler from './getMembers/getMembers-preview.handler';
 import GetMembersWithAlbumHandler from './getMembers/getMembers-with-album.handler';
 import GetMomentsPreviewHandler from './getMoments/getMoments-preview.handler';
 import GetPhotosPreviewHandler from './getPhotos/getPhotos-preview.handler';
+import UpdateAlbumHandler from './updateAlbum/updateAlbum.handler';
 
 export { default as CreateAlbumCommand } from './createAlbum/createAlbum.command';
 export { default as CreateMemberCommand } from './createMember/createMember.command';
@@ -21,6 +22,7 @@ export { default as GetMembersPreviewQuery } from './getMembers/getMembers-previ
 export { default as GetMembersWithAlbumQuery } from './getMembers/getMembers-with-album.query';
 export { default as GetMomentsPreviewQuery } from './getMoments/getMoments-preview.query';
 export { default as GetPhotosPreviewQuery } from './getPhotos/getPhotos-preview.query';
+export { default as UpdateAlbumCommand } from './updateAlbum/updateAlbum.command';
 export const AllCommandHandlers = [
   CreateAlbumHandler,
   CreateMemberHandler,
@@ -29,6 +31,7 @@ export const AllCommandHandlers = [
   DeleteMemberHandler,
   DeleteMomentHandler,
   DeletePhotoHandler,
+  UpdateAlbumHandler,
 ];
 export const AllQueryHandlers = [
   GetMembersPreviewHandler,
