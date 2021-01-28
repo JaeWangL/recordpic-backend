@@ -15,7 +15,7 @@ export default class UploadController {
   @Delete('file')
   @UseGuards(JwtAccessGuard)
   async deleteFile(@Body() req: DeleteFileRequest): Promise<boolean> {
-    await this.blobSvc.deleteBlobAsync('images', req.fileName);
+    await this.blobSvc.deleteBlobAsync(process.env.PHOTO_CONTAINER || 'images', req.fileName);
 
     return true;
   }
@@ -23,7 +23,7 @@ export default class UploadController {
   @Delete('files')
   @UseGuards(JwtAccessGuard)
   async deleteFiles(@Body() req: DeleteFilesRequest): Promise<boolean> {
-    await this.blobSvc.deleteBlobsAsync('images', req.fileNames);
+    await this.blobSvc.deleteBlobsAsync(process.env.PHOTO_CONTAINER || 'images', req.fileNames);
 
     return true;
   }
@@ -34,7 +34,7 @@ export default class UploadController {
   @UseGuards(JwtAccessGuard)
   async uploadFile(@Req() req: FastifyRequest): Promise<string> {
     const uploadedFile = await req.file();
-    const result = await this.blobSvc.uploadBlobAsync('images', uploadedFile);
+    const result = await this.blobSvc.uploadBlobAsync(process.env.PHOTO_CONTAINER || 'images', uploadedFile);
     if (!result) {
       throw new NotAcceptableException('Uploading file was failed');
     }
@@ -49,7 +49,7 @@ export default class UploadController {
   async uploadFiles(@Req() req: FastifyRequest): Promise<string[]> {
     // NOTE: This is not error. this is in official docs with `fasitfy-multipart`
     const uploadedFiles = await req.files();
-    const results = await this.blobSvc.uploadBlobsAsync('images', uploadedFiles);
+    const results = await this.blobSvc.uploadBlobsAsync(process.env.PHOTO_CONTAINER || 'images', uploadedFiles);
     if (!results) {
       throw new NotAcceptableException('Uploading files was failed');
     }

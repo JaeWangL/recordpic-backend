@@ -1,9 +1,9 @@
-import { Controller, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
-import { GetPhotosPreviewQuery } from '../commands';
-import { PhotoPreviewDto } from '../dtos';
+import { DeletePhotoCommand, GetPhotosPreviewQuery } from '../commands';
+import { DeletePhotoRequest, PhotoPreviewDto } from '../dtos';
 
 @ApiTags('Photos')
 @Controller('photos')
@@ -20,5 +20,18 @@ export default class PhotosController {
     const members: PhotoPreviewDto[] = await this.queryBus.execute(new GetPhotosPreviewQuery(momentId));
 
     return members;
+  }
+
+  @Delete()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Delete Photo' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The photo is successfully deleted.' })
+  async deleteAlbum(@Body() req: DeletePhotoRequest): Promise<boolean> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const result: boolean = await this.commandBus.execute(new DeletePhotoCommand(req));
+
+    return result;
   }
 }
