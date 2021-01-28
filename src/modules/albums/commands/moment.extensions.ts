@@ -1,5 +1,5 @@
 import { MomentPreviewDto } from '../dtos';
-import { MomentEntity } from '../domain';
+import { MomentEntity, PhotoEntity } from '../domain';
 
 export const toMomentPreviewDTO = (moment: MomentEntity): MomentPreviewDto => ({
   id: moment.id,
@@ -7,6 +7,18 @@ export const toMomentPreviewDTO = (moment: MomentEntity): MomentPreviewDto => ({
   coverUrl: moment.photos[0].photoUrl,
   momentDate: moment.momentDate,
   photoCount: moment.photos.length,
+});
+
+export const toMomentPreviewWithPhotoDTO = (
+  moment: MomentEntity,
+  photo: PhotoEntity,
+  photoCount: number,
+): MomentPreviewDto => ({
+  id: moment.id,
+  name: moment.name,
+  coverUrl: photo.photoUrl,
+  momentDate: moment.momentDate,
+  photoCount,
 });
 
 export const toMomentsPreviewDTO = (moments: MomentEntity[]): MomentPreviewDto[] =>

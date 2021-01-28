@@ -57,3 +57,9 @@ export class CreateAlbumRequest {
   @IsNotEmpty()
   readonly coverUrl: string;
 }
+
+export class DeleteAlbumRequest {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+}

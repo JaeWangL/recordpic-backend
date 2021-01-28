@@ -1,9 +1,9 @@
-import { BadRequestException, Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
-import { CreateAlbumCommand } from '../commands';
-import { AlbumPreviewDto, CreateAlbumRequest } from '../dtos';
+import { CreateAlbumCommand, DeleteAlbumCommand } from '../commands';
+import { AlbumPreviewDto, CreateAlbumRequest, DeleteAlbumRequest } from '../dtos';
 
 @ApiTags('Albums')
 @Controller('albums')
@@ -22,5 +22,18 @@ export default class AlbumsController {
     const album: AlbumPreviewDto = await this.commandBus.execute(new CreateAlbumCommand(req));
 
     return album;
+  }
+
+  @Delete()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Delete Album' })
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumPreviewDto, description: 'The album is successfully deleted.' })
+  async deleteAlbum(@Body() req: DeleteAlbumRequest): Promise<boolean> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const result: boolean = await this.commandBus.execute(new DeleteAlbumCommand(req));
+
+    return result;
   }
 }

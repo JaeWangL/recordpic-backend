@@ -3,7 +3,7 @@ import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { MomentEntity, PhotoEntity } from '../../domain';
 import { CreateMomentRequest, MomentPreviewDto } from '../../dtos';
 import { MomentService, PhotoService } from '../../services';
-import { toMomentPreviewDTO } from '../moment.extensions';
+import { toMomentPreviewWithPhotoDTO } from '../moment.extensions';
 import CreateMomentCommand from './createMoment.command';
 
 @CommandHandler(CreateMomentCommand)
@@ -15,10 +15,9 @@ export default class CreateMomentHandler implements ICommandHandler<CreateMoment
     const { req } = command;
 
     const newMoment = await this.createNewMomentAsync(req);
+    const newPhotos = await this.createPhotos(req, newMoment.id);
 
-    await this.createPhotos(req, newMoment.id);
-
-    return toMomentPreviewDTO(newMoment);
+    return toMomentPreviewWithPhotoDTO(newMoment, newPhotos[0], newPhotos.length);
   }
 
   private async createNewMomentAsync(req: CreateMomentRequest): Promise<MomentEntity> {
@@ -27,9 +26,9 @@ export default class CreateMomentHandler implements ICommandHandler<CreateMoment
     return await this.momentSvc.createAsync(newMoment);
   }
 
-  private async createPhotos(req: CreateMomentRequest, momentId: number): Promise<void> {
+  private async createPhotos(req: CreateMomentRequest, momentId: number): Promise<PhotoEntity[]> {
     const newPhotos = req.photos.map((p) => new PhotoEntity(req.albumId, momentId, p.photoUrl, p.title, p.description));
 
-    await this.photoSvc.createMultipleAsync(newPhotos);
+    return await this.photoSvc.createMultipleAsync(newPhotos);
   }
 }
