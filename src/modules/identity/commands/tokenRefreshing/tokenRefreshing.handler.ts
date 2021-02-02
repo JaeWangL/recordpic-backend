@@ -9,6 +9,8 @@ import TokenRefreshingCommand from './tokenRefreshing.command';
 export interface DecodedUser {
   readonly id: number;
   readonly email: string;
+  readonly name: string;
+  readonly imageUrl?: string;
   readonly iat: number;
   readonly exp: number;
 }
@@ -34,6 +36,8 @@ export default class TokenRefreshingHandler implements ICommandHandler<TokenRefr
     const payload: SignInPayload = {
       id: decodedUser.id,
       email: decodedUser.email,
+      name: decodedUser.name,
+      imageUrl: decodedUser.imageUrl,
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
