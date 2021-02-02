@@ -37,7 +37,7 @@ export default class CreateAlbumHandler implements ICommandHandler<CreateAlbumCo
 
   private async createNewAlbumAsync(req: CreateAlbumRequest): Promise<AlbumEntity> {
     const inviteCode = `${makeRandomString(3)}${makeRandomString(3)}`;
-    const newAlbum = new AlbumEntity(req.name, req.coverColor, req.coverUrl, inviteCode, req.description);
+    const newAlbum = new AlbumEntity(req.name, req.description, req.coverColor, req.coverUrl, inviteCode);
 
     return await this.albumSvc.createAsync(newAlbum);
   }

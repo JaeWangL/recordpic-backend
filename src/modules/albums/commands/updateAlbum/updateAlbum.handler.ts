@@ -18,7 +18,7 @@ export default class UpdateAlbumHandler implements ICommandHandler<UpdateAlbumCo
       throw new NotFoundException('The album does not exist');
     }
 
-    album.updateSettings(req.name, req.coverColor, req.coverUrl, req.description);
+    album.updateSettings(req.name, req.description, req.coverColor, req.coverUrl);
     await this.albumSvc.updateAsync(album);
 
     return toAlbumPreviewDTO(album);

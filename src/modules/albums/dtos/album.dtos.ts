@@ -10,8 +10,8 @@ export class AlbumPreviewDto {
   @IsNotEmpty()
   readonly name: string;
 
-  @ApiProperty({ type: String, maxLength: 30, nullable: true })
-  readonly description?: string;
+  @ApiProperty({ type: String, maxLength: 30 })
+  readonly description: string;
 
   @ApiProperty({ type: String, maxLength: 16 })
   @IsNotEmpty()
@@ -46,8 +46,8 @@ export class CreateAlbumRequest {
   @IsNotEmpty()
   readonly name: string;
 
-  @ApiProperty({ type: String, maxLength: 30, nullable: true })
-  readonly description?: string;
+  @ApiProperty({ type: String, maxLength: 30 })
+  readonly description: string;
 
   @ApiProperty({ type: String, maxLength: 16 })
   @IsNotEmpty()
@@ -73,8 +73,8 @@ export class UpdateAlbumRequest {
   @IsNotEmpty()
   readonly name: string;
 
-  @ApiProperty({ type: String, maxLength: 30, nullable: true })
-  readonly description?: string;
+  @ApiProperty({ type: String, maxLength: 30 })
+  readonly description: string;
 
   @ApiProperty({ type: String, maxLength: 16 })
   @IsNotEmpty()

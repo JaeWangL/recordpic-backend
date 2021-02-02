@@ -8,8 +8,8 @@ export default class AlbumEntity extends AbstractEntity {
   @Column({ type: 'nvarchar', length: 30 })
   name: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
-  description?: string;
+  @Column({ type: 'nvarchar', length: 30 })
+  description: string;
 
   @Column({ type: 'nvarchar', length: 16 })
   coverColor: string;
@@ -23,7 +23,7 @@ export default class AlbumEntity extends AbstractEntity {
   @OneToMany(() => MemberEntity, (member) => member.album, { cascade: true, onDelete: 'CASCADE' })
   members: MemberEntity[];
 
-  constructor(name: string, coverColor: string, coverUrl: string, inviteCode: string, desc?: string) {
+  constructor(name: string, desc: string, coverColor: string, coverUrl: string, inviteCode: string) {
     super();
     this.name = name;
     this.description = desc;
@@ -32,7 +32,7 @@ export default class AlbumEntity extends AbstractEntity {
     this.inviteCode = inviteCode;
   }
 
-  updateSettings(name: string, coverColor: string, coverUrl: string, desc?: string): void {
+  updateSettings(name: string, desc: string, coverColor: string, coverUrl: string): void {
     this.name = name;
     this.description = desc;
     this.coverColor = coverColor;

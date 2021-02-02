@@ -66,7 +66,7 @@ CREATE TABLE [test1].[Verifications_Phone]
 CREATE TABLE [test1].[Albums] (
     [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
     [Name]                 NVARCHAR (30)           NOT NULL,
-    [Description]          NVARCHAR (30)           NULL,
+    [Description]          NVARCHAR (30)           NOT NULL,
     [CoverColor]            NVARCHAR (16)           NOT NULL,
     [CoverUrl]             NVARCHAR (MAX)          NOT NULL,
     [InviteCode]          NVARCHAR (16)           NOT NULL,
