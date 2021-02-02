@@ -11,6 +11,8 @@ import SignInCommand from './signIn.command';
 export interface SignInPayload {
   readonly id: number;
   readonly email: string;
+  readonly name: string;
+  readonly imageUrl?: string;
 }
 
 @CommandHandler(SignInCommand)
@@ -37,6 +39,8 @@ export default class SignInHandler implements ICommandHandler<SignInCommand, Aut
     const payload: SignInPayload = {
       id: user.id,
       email: user.email,
+      name: user.name,
+      imageUrl: user.imageUrl,
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {

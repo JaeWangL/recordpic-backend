@@ -50,10 +50,10 @@ export class SignInSocialRequest {
   readonly type: SignInType;
 
   @ApiProperty({ enum: SocialSignInType })
-  socialType: SocialSignInType;
+  readonly socialType: SocialSignInType;
 
   @ApiProperty({ type: String })
-  socialId: string;
+  readonly socialId: string;
 }
 
 export class SignOutRequest {

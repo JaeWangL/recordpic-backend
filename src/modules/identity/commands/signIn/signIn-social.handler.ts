@@ -39,6 +39,8 @@ export default class SignInSocialHandler implements ICommandHandler<SignInSocial
     const payload: SignInPayload = {
       id: user.id,
       email: user.email,
+      name: user.name,
+      imageUrl: user.imageUrl,
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
