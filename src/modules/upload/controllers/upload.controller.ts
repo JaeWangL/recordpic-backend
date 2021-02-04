@@ -12,29 +12,29 @@ import { DeleteFileRequest, DeleteFilesRequest } from '../dtos';
 export default class UploadController {
   constructor(private readonly blobSvc: BlobService) {}
 
-  @Delete('file')
+  @Delete('image')
   @UseGuards(JwtAccessGuard)
-  async deleteFile(@Body() req: DeleteFileRequest): Promise<boolean> {
+  async deleteImage(@Body() req: DeleteFileRequest): Promise<boolean> {
     await this.blobSvc.deleteBlobAsync(process.env.PHOTO_CONTAINER || 'images', req.fileName);
 
     return true;
   }
 
-  @Delete('files')
+  @Delete('images')
   @UseGuards(JwtAccessGuard)
-  async deleteFiles(@Body() req: DeleteFilesRequest): Promise<boolean> {
+  async deleteImages(@Body() req: DeleteFilesRequest): Promise<boolean> {
     await this.blobSvc.deleteBlobsAsync(process.env.PHOTO_CONTAINER || 'images', req.fileNames);
 
     return true;
   }
 
-  @Post('file')
+  @Post('image')
   @ApiConsumes('multipart/form-data')
-  @ApiFile('file')
+  @ApiFile('image')
   @UseGuards(JwtAccessGuard)
-  async uploadFile(@Req() req: FastifyRequest): Promise<string> {
-    const uploadedFile = await req.file();
-    const result = await this.blobSvc.uploadBlobAsync(process.env.PHOTO_CONTAINER || 'images', uploadedFile);
+  async uploadImage(@Req() req: FastifyRequest): Promise<string> {
+    const uploadedImage = await req.file();
+    const result = await this.blobSvc.uploadBlobAsync(process.env.PHOTO_CONTAINER || 'images', uploadedImage);
     if (!result) {
       throw new NotAcceptableException('Uploading file was failed');
     }
@@ -42,14 +42,14 @@ export default class UploadController {
     return result;
   }
 
-  @Post('files')
+  @Post('images')
   @ApiConsumes('multipart/form-data')
-  @ApiFiles('files')
+  @ApiFiles('images')
   @UseGuards(JwtAccessGuard)
-  async uploadFiles(@Req() req: FastifyRequest): Promise<string[]> {
+  async uploadImages(@Req() req: FastifyRequest): Promise<string[]> {
     // NOTE: This is not error. this is in official docs with `fasitfy-multipart`
-    const uploadedFiles = await req.files();
-    const results = await this.blobSvc.uploadBlobsAsync(process.env.PHOTO_CONTAINER || 'images', uploadedFiles);
+    const uploadedImages = await req.files();
+    const results = await this.blobSvc.uploadBlobsAsync(process.env.PHOTO_CONTAINER || 'images', uploadedImages);
     if (!results) {
       throw new NotAcceptableException('Uploading files was failed');
     }
