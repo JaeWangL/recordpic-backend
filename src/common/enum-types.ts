@@ -1,3 +1,9 @@
+export enum NotificationType {
+  CreateMoment = 0,
+  UpdateMoment = 1,
+  CreateComment = 2,
+}
+
 export enum SignInType {
   Web = 0,
   Mobile = 1,

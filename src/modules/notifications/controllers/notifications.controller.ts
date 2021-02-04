@@ -1,13 +1,49 @@
-import { BadRequestException, Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
+import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SendMailCommand, SendSMSCommand } from '../commands';
-import { SendMailRequest, SendSMSRequest } from '../dtos';
+import PaginatedItemsViewModel from '@common/paginated-Items.viewModel';
+import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
+import { CreateNotificationCommand, GetNotificationsQuery, SendMailCommand, SendSMSCommand } from '../commands';
+import { CreateNotificationRequest, NotificationDto, SendMailRequest, SendSMSRequest } from '../dtos';
 
 @ApiTags('Notifications')
 @Controller('notifications')
 export default class NotificationsController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
+
+  @Get('user/:userId')
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Get Notifications By UserId' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Get Notifications By UserId.' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED })
+  async getMembersWithAlbum(
+    @Param('userId') userId: number,
+    @Query('pageIndex') pageIndex = 0,
+    @Query('pageSize') pageSize = 10,
+  ): Promise<PaginatedItemsViewModel<NotificationDto>> {
+    const notifications: PaginatedItemsViewModel<NotificationDto> = await this.queryBus.execute(
+      new GetNotificationsQuery(userId, pageIndex, pageSize),
+    );
+
+    return notifications;
+  }
+
+  @Post()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Create Notification' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: NotificationDto,
+    description: 'New notification is successfully created.',
+  })
+  async createMoment(@Body() req: CreateNotificationRequest): Promise<NotificationDto> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const notification: NotificationDto = await this.commandBus.execute(new CreateNotificationCommand(req));
+
+    return notification;
+  }
 
   @Post('mail')
   @ApiOperation({ summary: 'Send Mail' })
