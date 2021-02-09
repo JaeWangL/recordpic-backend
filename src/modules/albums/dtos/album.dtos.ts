@@ -21,6 +21,10 @@ export class AlbumPreviewDto {
   @IsNotEmpty()
   readonly coverUrl: string;
 
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  readonly inviteCode: string;
+
   @ApiProperty({ type: Date })
   @IsNotEmpty()
   readonly createdDate: Date;

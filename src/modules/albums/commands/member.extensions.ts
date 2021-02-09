@@ -19,6 +19,7 @@ export const toMemberWithAlbumDTO = (member: MemberEntity): MemberWithAlbumDto =
     description: member.album.description,
     coverColor: member.album.coverColor,
     coverUrl: member.album.coverUrl,
+    inviteCode: member.album.inviteCode,
     createdDate: member.album.createdAt,
   } as AlbumPreviewDto,
 });

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotAcceptableException } from '@nestjs/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { Multipart } from 'fastify-multipart';
 
