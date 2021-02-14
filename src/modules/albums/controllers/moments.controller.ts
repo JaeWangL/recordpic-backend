@@ -59,7 +59,7 @@ export default class MomentsController {
   @UseGuards(JwtAccessGuard)
   @ApiOperation({ summary: 'Delete Moment' })
   @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The moment is successfully deleted.' })
-  async deleteAlbum(@Body() req: DeleteMomentRequest): Promise<boolean> {
+  async deleteMoment(@Body() req: DeleteMomentRequest): Promise<boolean> {
     if (req === undefined) {
       throw new BadRequestException();
     }
@@ -72,7 +72,7 @@ export default class MomentsController {
   @UseGuards(JwtAccessGuard)
   @ApiOperation({ summary: 'Update Moment' })
   @ApiResponse({ status: HttpStatus.OK, type: MomentPreviewDto, description: 'The moment is successfully updated.' })
-  async updateAlbum(@Body() req: UpdateMomentRequest): Promise<MomentPreviewDto> {
+  async updateMoment(@Body() req: UpdateMomentRequest): Promise<MomentPreviewDto> {
     if (req === undefined) {
       throw new BadRequestException();
     }

@@ -4,6 +4,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import SharedModule from '@shared/shared.module';
 import AlbumsModule from '../albums/albums.module';
+import CommentsModule from '../comments/comments.module';
 import IdentityModule from '../identity/identity.module';
 import NotificationsModule from '../notifications/notifications.module';
 import UploadModule from '../upload/upload.module';
@@ -37,6 +38,7 @@ const AllControllers = [AppController, HealthController];
     }),
     SharedModule,
     AlbumsModule,
+    CommentsModule,
     IdentityModule,
     NotificationsModule,
     UploadModule,

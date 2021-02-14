@@ -114,6 +114,19 @@ CREATE TABLE [test1].[Photos] (
     CONSTRAINT [FK_Photos_Albums_AlbumId] FOREIGN KEY ([AlbumId]) REFERENCES [test1].[Albums] ([Id]) ON DELETE CASCADE
 );
 
+CREATE TABLE [test1].[Comments] (
+    [Id]                       BIGINT                  IDENTITY (1, 1) NOT NULL,
+    [AlbumId]                  BIGINT                  NOT NULL,
+    [MomentId]                 BIGINT                  NOT NULL,
+    [UserId]                   BIGINT                  NOT NULL,
+    [UserName]                 NVARCHAR (30)           NOT NULL,
+    [UserImageUrl]             NVARCHAR (MAX)          NULL,
+    [Text]                     NVARCHAR (MAX)          NOT NULL,
+    [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Users_Email]
