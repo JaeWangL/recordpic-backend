@@ -40,4 +40,8 @@ export class NotificationPreviewDto {
 
   @ApiProperty({ type: Number, nullable: true })
   readonly momentId?: number;
+
+  @ApiProperty({ type: Date })
+  @IsNotEmpty()
+  readonly createdDate: Date;
 }

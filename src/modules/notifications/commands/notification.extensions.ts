@@ -7,6 +7,7 @@ export const toNotificationPreviewDTO = (notification: NotificationEntity): Noti
   memberImageUrl: notification.memberImageUrl,
   albumId: notification.albumId,
   momentId: notification.momentId,
+  createdDate: notification.createdAt,
 });
 
 export const toNotificationsPreviewDTO = (notifications: NotificationEntity[]): NotificationPreviewDto[] =>
