@@ -25,6 +25,10 @@ export class CreateNotificationRequest {
 }
 
 export class NotificationPreviewDto {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+
   @ApiProperty({ type: Number, enum: NotificationType })
   readonly type: NotificationType;
 
