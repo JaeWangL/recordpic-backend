@@ -127,6 +127,18 @@ CREATE TABLE [test1].[Comments] (
     CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
+CREATE TABLE [test1].[Notifications] (
+    [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
+    [UserId]               BIGINT                  NOT NULL,
+    [Type]                 TINYINT                 NOT NULL,
+    [MemberName]           NVARCHAR (30)           NOT NULL,
+    [MemberImageUrl]       NVARCHAR (MAX)          NULL,
+    [AlbumId]              BIGINT                  NULL,
+    [MomentId]             BIGINT                  NULL,
+    [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT [PK_Notifications] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Users_Email]

@@ -12,18 +12,32 @@ export class CreateNotificationRequest {
 
   @ApiProperty({ type: String, maxLength: 30 })
   @IsNotEmpty()
-  readonly userName: string;
+  readonly memberName: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly memberImageUrl?: string;
+
+  @ApiProperty({ type: Number, nullable: true })
+  readonly albumId?: number;
+
+  @ApiProperty({ type: Number, nullable: true })
+  readonly momentId?: number;
 }
 
-export class NotificationDto {
-  @ApiProperty({ type: Number })
-  @IsNotEmpty()
-  readonly userId: number;
-
+export class NotificationPreviewDto {
   @ApiProperty({ type: Number, enum: NotificationType })
   readonly type: NotificationType;
 
   @ApiProperty({ type: String, maxLength: 30 })
   @IsNotEmpty()
-  readonly userName: string;
+  readonly memberName: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly memberImageUrl?: string;
+
+  @ApiProperty({ type: Number, nullable: true })
+  readonly albumId?: number;
+
+  @ApiProperty({ type: Number, nullable: true })
+  readonly momentId?: number;
 }

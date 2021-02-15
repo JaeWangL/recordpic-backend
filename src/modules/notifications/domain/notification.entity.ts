@@ -12,12 +12,32 @@ export default class NotificationEntity extends AbstractEntity {
   @Column({ type: 'tinyint', enum: NotificationType })
   type: NotificationType;
 
-  userName: string;
+  @Column({ type: 'nvarchar', length: 30 })
+  memberName: string;
 
-  constructor(userId: number, type: NotificationType, userName: string) {
+  @Column({ type: 'nvarchar', length: 'MAX', nullable: true })
+  memberImageUrl?: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  albumId?: number;
+
+  @Column({ type: 'bigint', nullable: true })
+  momentId?: number;
+
+  constructor(
+    userId: number,
+    type: NotificationType,
+    memberName: string,
+    memberImageUrl?: string,
+    albumId?: number,
+    momentId?: number,
+  ) {
     super();
     this.userId = userId;
     this.type = parseNotificationType(type);
-    this.userName = userName;
+    this.memberName = memberName;
+    this.memberImageUrl = memberImageUrl;
+    this.albumId = albumId;
+    this.momentId = momentId;
   }
 }

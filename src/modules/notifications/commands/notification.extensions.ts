@@ -1,11 +1,13 @@
-import { NotificationDto } from '../dtos';
+import { NotificationPreviewDto } from '../dtos';
 import { NotificationEntity } from '../domain';
 
-export const toNotificationDTO = (notification: NotificationEntity): NotificationDto => ({
-  userId: notification.userId,
+export const toNotificationPreviewDTO = (notification: NotificationEntity): NotificationPreviewDto => ({
   type: notification.type,
-  userName: notification.userName,
+  memberName: notification.memberName,
+  memberImageUrl: notification.memberImageUrl,
+  albumId: notification.albumId,
+  momentId: notification.momentId,
 });
 
-export const toNotificationsDTO = (notifications: NotificationEntity[]): NotificationDto[] =>
-  notifications.map((notification) => toNotificationDTO(notification));
+export const toNotificationsPreviewDTO = (notifications: NotificationEntity[]): NotificationPreviewDto[] =>
+  notifications.map((notification) => toNotificationPreviewDTO(notification));

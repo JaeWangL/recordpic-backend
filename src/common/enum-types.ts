@@ -1,7 +1,14 @@
+export enum DeviceTokenType {
+  Android = 0,
+  iOS = 1,
+}
+
 export enum NotificationType {
-  CreateMoment = 0,
-  UpdateMoment = 1,
-  CreateComment = 2,
+  AddMember = 0,
+  DeleteMember = 1,
+  CreateMoment = 2,
+  UpdateMoment = 3,
+  CreateComment = 4,
 }
 
 export enum SignInType {
