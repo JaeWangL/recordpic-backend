@@ -4,7 +4,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import PaginatedItemsViewModel from '@common/paginated-Items.viewModel';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
 import { CreateNotificationCommand, GetNotificationsQuery, SendMailCommand, SendSMSCommand } from '../commands';
-import { CreateNotificationRequest, NotificationDto, SendMailRequest, SendSMSRequest } from '../dtos';
+import { CreateNotificationRequest, NotificationPreviewDto, SendMailRequest, SendSMSRequest } from '../dtos';
 
 @ApiTags('Notifications')
 @Controller('notifications')
@@ -20,8 +20,8 @@ export default class NotificationsController {
     @Param('userId') userId: number,
     @Query('pageIndex') pageIndex = 0,
     @Query('pageSize') pageSize = 10,
-  ): Promise<PaginatedItemsViewModel<NotificationDto>> {
-    const notifications: PaginatedItemsViewModel<NotificationDto> = await this.queryBus.execute(
+  ): Promise<PaginatedItemsViewModel<NotificationPreviewDto>> {
+    const notifications: PaginatedItemsViewModel<NotificationPreviewDto> = await this.queryBus.execute(
       new GetNotificationsQuery(userId, pageIndex, pageSize),
     );
 
@@ -33,14 +33,14 @@ export default class NotificationsController {
   @ApiOperation({ summary: 'Create Notification' })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: NotificationDto,
+    type: NotificationPreviewDto,
     description: 'New notification is successfully created.',
   })
-  async createMoment(@Body() req: CreateNotificationRequest): Promise<NotificationDto> {
+  async createMoment(@Body() req: CreateNotificationRequest): Promise<NotificationPreviewDto> {
     if (req === undefined) {
       throw new BadRequestException();
     }
-    const notification: NotificationDto = await this.commandBus.execute(new CreateNotificationCommand(req));
+    const notification: NotificationPreviewDto = await this.commandBus.execute(new CreateNotificationCommand(req));
 
     return notification;
   }
