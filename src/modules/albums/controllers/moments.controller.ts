@@ -16,7 +16,13 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import PaginatedItemsViewModel from '@common/paginated-Items.viewModel';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
 import { ApiPaginatedResponse } from '@infrastructure/decorators';
-import { CreateMomentCommand, DeleteMomentCommand, GetMomentsPreviewQuery, UpdateMomentCommand } from '../commands';
+import {
+  CreateMomentCommand,
+  DeleteMomentCommand,
+  GetMomentPreviewQuery,
+  GetMomentsPreviewQuery,
+  UpdateMomentCommand,
+} from '../commands';
 import { MomentPreviewDto, CreateMomentRequest, DeleteMomentRequest, UpdateMomentRequest } from '../dtos';
 
 @ApiTags('Moments')
@@ -24,6 +30,17 @@ import { MomentPreviewDto, CreateMomentRequest, DeleteMomentRequest, UpdateMomen
 @ApiBearerAuth()
 export default class MomentsController {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
+
+  @Get(':id')
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Get Moment Preview By d' })
+  @ApiResponse({ status: HttpStatus.OK, type: MomentPreviewDto })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED })
+  async getMomentPreview(@Param('id') id: number): Promise<MomentPreviewDto> {
+    const moment: MomentPreviewDto = await this.queryBus.execute(new GetMomentPreviewQuery(id));
+
+    return moment;
+  }
 
   @Get('album/:albumId')
   @UseGuards(JwtAccessGuard)
