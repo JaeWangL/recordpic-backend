@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import NotificationsModule from '@notifications/notifications.module';
 import SharedModule from '@shared/shared.module';
 import AlbumsModule from '../albums/albums.module';
 import CommentsModule from '../comments/comments.module';
 import IdentityModule from '../identity/identity.module';
-import NotificationsModule from '../notifications/notifications.module';
 import UploadModule from '../upload/upload.module';
 import { AppController, HealthController } from './controllers';
 import AppService from './app.service';
@@ -36,11 +36,11 @@ const AllControllers = [AppController, HealthController];
         enableArithAbort: true,
       },
     }),
+    NotificationsModule,
     SharedModule,
     AlbumsModule,
     CommentsModule,
     IdentityModule,
-    NotificationsModule,
     UploadModule,
   ],
   controllers: [...AllControllers],

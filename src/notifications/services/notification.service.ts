@@ -14,6 +14,10 @@ export default class NotificationService {
     return await this.notifyingSvc.save(newNotification);
   }
 
+  async deleteByIdAsync(id: number): Promise<void> {
+    await this.notifyingSvc.delete({ id });
+  }
+
   async deleteByUserIdAsync(userId: number): Promise<void> {
     await this.notifyingSvc.delete({ userId });
   }

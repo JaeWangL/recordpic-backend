@@ -24,6 +24,12 @@ export class CreateNotificationRequest {
   readonly momentId?: number;
 }
 
+export class DeleteNotificationRequest {
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly id: number;
+}
+
 export class NotificationPreviewDto {
   @ApiProperty({ type: Number })
   @IsNotEmpty()

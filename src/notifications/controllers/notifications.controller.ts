@@ -1,10 +1,33 @@
-import { BadRequestException, Body, Controller, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import PaginatedItemsViewModel from '@common/paginated-Items.viewModel';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
-import { CreateNotificationCommand, GetNotificationsQuery, SendMailCommand, SendSMSCommand } from '../commands';
-import { CreateNotificationRequest, NotificationPreviewDto, SendMailRequest, SendSMSRequest } from '../dtos';
+import {
+  CreateNotificationCommand,
+  DeleteNotificationCommand,
+  GetNotificationsQuery,
+  SendMailCommand,
+  SendSMSCommand,
+} from '../commands';
+import {
+  CreateNotificationRequest,
+  DeleteNotificationRequest,
+  NotificationPreviewDto,
+  SendMailRequest,
+  SendSMSRequest,
+} from '../dtos';
 
 @ApiTags('Notifications')
 @Controller('notifications')
@@ -36,7 +59,7 @@ export default class NotificationsController {
     type: NotificationPreviewDto,
     description: 'New notification is successfully created.',
   })
-  async createMoment(@Body() req: CreateNotificationRequest): Promise<NotificationPreviewDto> {
+  async createNotification(@Body() req: CreateNotificationRequest): Promise<NotificationPreviewDto> {
     if (req === undefined) {
       throw new BadRequestException();
     }
@@ -65,6 +88,19 @@ export default class NotificationsController {
       throw new BadRequestException();
     }
     const result: boolean = await this.commandBus.execute(new SendSMSCommand(req));
+
+    return result;
+  }
+
+  @Delete()
+  @UseGuards(JwtAccessGuard)
+  @ApiOperation({ summary: 'Delete Notification' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean, description: 'The notification is successfully deleted.' })
+  async deleteNotification(@Body() req: DeleteNotificationRequest): Promise<boolean> {
+    if (req === undefined) {
+      throw new BadRequestException();
+    }
+    const result: boolean = await this.commandBus.execute(new DeleteNotificationCommand(req));
 
     return result;
   }

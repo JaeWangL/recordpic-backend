@@ -19,6 +19,7 @@
       "@common/*": ["./src/common/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
       "@modules/*": ["./src/modules/*"],
+      "@notifications/*": ["./src/notifications/*"],
       "@shared/*": ["./src/shared/*"]
     }
   }
