@@ -12,3 +12,9 @@ export class DeleteImagesRequest {
   @IsNotEmpty()
   readonly fileNames: string[];
 }
+
+export class DeleteProfilePhotoRequest {
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  readonly fileName: string;
+}

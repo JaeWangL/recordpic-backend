@@ -4,7 +4,7 @@ import { FastifyRequest } from 'fastify';
 import { ApiFile, ApiFiles } from '@infrastructure/decorators';
 import JwtAccessGuard from '@infrastructure/guards/jwt-access.guard';
 import BlobService from '@shared/azure/blob.service';
-import { DeleteImageRequest, DeleteImagesRequest } from '../dtos';
+import { DeleteImageRequest, DeleteImagesRequest, DeleteProfilePhotoRequest } from '../dtos';
 
 @ApiTags('Upload')
 @Controller('upload')
@@ -24,6 +24,14 @@ export default class UploadController {
   @UseGuards(JwtAccessGuard)
   async deleteImages(@Body() req: DeleteImagesRequest): Promise<boolean> {
     await this.blobSvc.deleteBlobsAsync(process.env.PHOTO_CONTAINER || 'images', req.fileNames);
+
+    return true;
+  }
+
+  @Delete('photo/profile')
+  @UseGuards(JwtAccessGuard)
+  async deleteProfilePhoto(@Body() req: DeleteProfilePhotoRequest): Promise<boolean> {
+    await this.blobSvc.deleteBlobAsync(process.env.PROFILE_PHOTO_CONTAINER || 'photos', req.fileName);
 
     return true;
   }
@@ -55,5 +63,19 @@ export default class UploadController {
     }
 
     return results;
+  }
+
+  @Post('photo/profile')
+  @ApiConsumes('multipart/form-data')
+  @ApiFile('image')
+  @UseGuards(JwtAccessGuard)
+  async uploadProfilePhoto(@Req() req: FastifyRequest): Promise<string> {
+    const uploadedImage = await req.file();
+    const result = await this.blobSvc.uploadBlobAsync(process.env.PROFILE_PHOTO_CONTAINER || 'photos', uploadedImage);
+    if (!result) {
+      throw new NotAcceptableException('Uploading photo was failed');
+    }
+
+    return result;
   }
 }
