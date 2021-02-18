@@ -16,3 +16,15 @@ export class UserDto {
   @ApiProperty({ type: String, nullable: true })
   readonly imageUrl?: string;
 }
+
+export class UpdateProfileRequest {
+  @ApiProperty({ type: Number })
+  readonly id: number;
+
+  @ApiProperty({ type: String, maxLength: 30 })
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  readonly imageUrl?: string;
+}

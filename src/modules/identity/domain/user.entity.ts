@@ -50,4 +50,10 @@ export default class UserEntity extends AbstractEntity {
     this.emailConfirmed = confirmed;
     this.updatedAt = new Date();
   }
+
+  updateProfile(name: string, imageUrl?: string): void {
+    this.name = name;
+    this.imageUrl = imageUrl;
+    this.updatedAt = new Date();
+  }
 }
