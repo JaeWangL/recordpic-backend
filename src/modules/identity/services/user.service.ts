@@ -14,6 +14,15 @@ export default class UserService {
     return await this.userSvc.save(newUser);
   }
 
+  async findByEmailAsync(email: string): Promise<UserEntity | undefined> {
+    return await this.userSvc.findOne({
+      where: {
+        email,
+        emailConfirmed: true,
+      },
+    });
+  }
+
   async findByEmailWithSocialAsync(
     email: string,
     socialType: number,
