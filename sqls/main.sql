@@ -127,6 +127,16 @@ CREATE TABLE [test1].[Comments] (
     CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
+CREATE TABLE [test1].[Devices] (
+    [Id]                BIGINT                  IDENTITY (1, 1) NOT NULL,
+    [UserId]            BIGINT                  NOT NULL,
+    [Type]              TINYINT                 NOT NULL,
+    [DeviceToken]       NVARCHAR (MAX)          NOT NULL,
+    [CreatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    [UpdatedAt] DATETIMEOFFSET (7) DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT [PK_Devices] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
 CREATE TABLE [test1].[Notifications] (
     [Id]                   BIGINT                  IDENTITY (1, 1) NOT NULL,
     [UserId]               BIGINT                  NOT NULL,
