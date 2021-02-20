@@ -20,3 +20,9 @@ export enum SocialSignInType {
   Google = 0,
   Naver = 1,
 }
+
+export enum UpdatePhotoType {
+  Create = 0,
+  Delete = 1,
+  Update = 2,
+}

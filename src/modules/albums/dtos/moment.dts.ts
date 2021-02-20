@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
+import { UpdatePhotoType } from '@common/enum-types';
 import { CreatePhotoWithMomentRequest } from './photo.dtos';
 
 export class MomentPreviewDto {
@@ -53,6 +54,9 @@ export class DeleteMomentRequest {
 }
 
 export class UpdatePhotoWithMomentRequest {
+  @ApiProperty({ type: Number, enum: UpdatePhotoType })
+  readonly type: UpdatePhotoType;
+
   @ApiProperty({ type: Number, nullable: true })
   @IsNotEmpty()
   readonly id?: number;
