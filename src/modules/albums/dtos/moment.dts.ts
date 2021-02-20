@@ -83,6 +83,10 @@ export class UpdateMomentRequest {
   @IsNotEmpty()
   readonly name: string;
 
+  @ApiProperty({ type: Number })
+  @IsNotEmpty()
+  readonly creatorMemberId: number;
+
   @ApiProperty({ type: Date })
   @IsNotEmpty()
   readonly momentDate: Date;
