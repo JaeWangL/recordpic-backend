@@ -68,5 +68,7 @@ export default class UpdateMomentHandler implements ICommandHandler<UpdateMoment
     }
 
     existing.updatePhoto(photo.photoUrl, photo.title, photo.description);
+
+    await this.photoSvc.updateAsync(existing);
   }
 }
