@@ -25,7 +25,7 @@ import { CommentPreviewDto, CreateCommentRequest, DeleteCommentRequest, UpdateCo
 export default class CommentsController {
   constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
-  @Get('album/:albumId')
+  @Get('moment/:momentId')
   @UseGuards(JwtAccessGuard)
   @ApiOperation({ summary: 'Get Comments Preview By MomentId' })
   @ApiPaginatedResponse(CommentPreviewDto)
